@@ -28,6 +28,14 @@ module.exports = {
         }
       },
       {
+        test: /.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader",
+          publicPath: "/dist/css/"
+        })
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
@@ -63,10 +71,12 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  //devtool: '#eval-source-map'
 }
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
+  //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
+  //source-map有多种模式，具体可参考http://www.sourcemap.com/
+  //module.exports.devtool = '#source-map'
   module.exports.module.rules[0].options.loaders={css: ExtractTextPlugin.extract({
               use: 'css-loader',
               fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
@@ -81,7 +91,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new CleanPlugin(['./dist/**/*']), //清空生成目录
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
+      sourceMap: false,
       compress: {
         warnings: false
       }
