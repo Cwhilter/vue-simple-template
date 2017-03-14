@@ -4,14 +4,14 @@ var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CleanPlugin = require('clean-webpack-plugin')//webpack插件，用于清除目录文件 
 var HtmlWebpackPlugin = require('html-webpack-plugin')//动态插入js和css文件
-var merge = require('merge')
+
 var debug = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve('./dist'),
-    publicPath: debug?'/dist/':'./',
+    publicPath: debug?'/dist/':'../',
     chunkFilename: debug ? '[chunkhash:8].chunk.js' : 'js/[chunkhash:8].chunk.min.js',
     filename: debug?'index.js':'js/[hash:8].[name].min.js'
   },
@@ -32,7 +32,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: "css-loader",
-          publicPath: "/dist/css/"
+          publicPath: "/dist/"
         })
       },
       {
@@ -98,7 +98,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new ExtractTextPlugin("css/style.[hash:8].css"),   
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'html/index.html',
       template: './src/index.html',//模板路径
       inject: true,
       minify: {
