@@ -4,16 +4,15 @@ var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var CleanPlugin = require('clean-webpack-plugin')//webpack插件，用于清除目录文件 
 var HtmlWebpackPlugin = require('html-webpack-plugin')//动态插入js和css文件
-
 var debug = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve('./dist'),
-    publicPath: debug?'/dist/':'../',
+    publicPath: debug?'/dist/':'/',
     chunkFilename: debug ? '[chunkhash:8].chunk.js' : 'js/[chunkhash:8].chunk.min.js',
-    filename: debug?'index.js':'js/[hash:8].[name].min.js'
+    filename: debug?'index.js':'js/[hash:8].index.min.js'
   },
   module: {
     rules: [
@@ -61,18 +60,22 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
+  //各种插件，参考官网https://webpack.js.org/
   plugins: [
-    
+     
   ],
+  //选择定义开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: true,
+    port:8081
   },
   performance: {
     hints: false
   },
   //devtool: '#eval-source-map'
 }
+process.traceDeprecation = true
 if (process.env.NODE_ENV === 'production') {
   //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
   //source-map有多种模式，具体可参考http://www.sourcemap.com/
@@ -98,7 +101,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new ExtractTextPlugin("css/style.[hash:8].css"),   
     new HtmlWebpackPlugin({
-      filename: 'html/index.html',
+      filename: 'index.html',
       template: './src/index.html',//模板路径
       inject: true,
       minify: {
