@@ -14,6 +14,12 @@
     }
   }
 </script>
-<style scoped>
-  
+<style lang="less" scoped>
+  @color:#fff;
+  p{
+    font-size: 16px;
+    .dialog{
+      background: #000;
+    }
+  }
 </style>
