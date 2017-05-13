@@ -32,6 +32,14 @@ module.exports = {
       
       /*{
         test: /.css$/,
+        use:[{
+            loader: "style-loader" // creates style nodes from JS strings 
+        }, {
+            loader: "css-loader" // translates CSS into CommonJS 
+        }]
+      },
+      /*{
+        test: /.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: "css-loader",
@@ -75,20 +83,15 @@ module.exports = {
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      'src': path.resolve(__dirname, './src'),
-      'assets': path.resolve(__dirname, './src/assets'),
-      'components': path.resolve(__dirname, './src/components'),
-      'vux-components': 'vux/src/components',
-      'jquery':'jquery'
+      'src': path.resolve(__dirname, '../src'),
+      'assets': path.resolve(__dirname, '../src/assets'),
+      'components': path.resolve(__dirname, '../src/components'),
+      'vux-components': 'vux/src/components'
     }
   },
   //各种插件，参考官网https://webpack.js.org/
   plugins: [
-     new webpack.ProvidePlugin({// 全局依赖jQuery,不需要import了
-        $ : "jquery",
-        jQuery : "jquery",
-        "window.jQuery" : "jquery"
-      })
+     new ExtractTextPlugin("css/common.css")
   ],
   //选择定义开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
   devServer: {
@@ -101,16 +104,8 @@ module.exports = {
   },
   //devtool: '#eval-source-map'
 }
-if(process.env.NODE_ENV==='development'){
-  module.exports.module.rules.push({
-        test: /.css$/,
-        use:[{
-            loader: "style-loader" // creates style nodes from JS strings 
-        }, {
-            loader: "css-loader" // translates CSS into CommonJS 
-        }]
-      });
-}
+
+process.traceDeprecation = true
 if (process.env.NODE_ENV === 'production') {
   //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
   //source-map有多种模式，具体可参考http://www.sourcemap.com/
@@ -126,11 +121,8 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.module.rules[0].options.loaders={css: ExtractTextPlugin.extract({
               use: 'css-loader',
               fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
-            })/*,
-            less: ExtractTextPlugin.extract({
-              use: 'less-loader',
-              fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
-            }),*/
+
+            })
             }
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
