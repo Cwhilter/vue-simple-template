@@ -1,7 +1,5 @@
 <template>
-  <main-layout>
-    <p>Page not found</p>
-  </main-layout>
+  <div class="notFound"></div>
 </template>
 
 <script>
@@ -13,3 +11,11 @@
     }
   }
 </script>
+<style scoped>
+.notFound{
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(../assets/images/404.jpg);
+}
+</style>

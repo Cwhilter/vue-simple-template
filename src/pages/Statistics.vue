@@ -1,7 +1,7 @@
 <template>
-  <main-layout>
-    <p>Welcome to home</p>
-    <img src="../assets/images/logo.png">
+  <main-layout statistics='true'>
+    <div class="container">
+    </div>
   </main-layout>
 </template>
 
@@ -14,6 +14,4 @@
     }
   }
 </script>
-<style scoped>
-  
-</style>
+ 
