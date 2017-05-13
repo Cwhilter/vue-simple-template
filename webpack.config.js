@@ -40,6 +40,14 @@ module.exports = {
       },
       /*{
         test: /.css$/,
+        use:[{
+            loader: "style-loader" // creates style nodes from JS strings 
+        }, {
+            loader: "css-loader" // translates CSS into CommonJS 
+        }]
+      },
+      /*{
+        test: /.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: "css-loader",
@@ -104,7 +112,6 @@ module.exports = {
   },
   //devtool: '#eval-source-map'
 }
-
 process.traceDeprecation = true
 if (process.env.NODE_ENV === 'production') {
   //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
@@ -121,7 +128,6 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.module.rules[0].options.loaders={css: ExtractTextPlugin.extract({
               use: 'css-loader',
               fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
-
             })
             }
   // http://vue-loader.vuejs.org/en/workflow/production.html
