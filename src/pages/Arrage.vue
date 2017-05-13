@@ -139,7 +139,9 @@
           success: function(data) {
             if(data.status==='success'){
               _this.dialogShow('布置作业成功');
-              //window.location.reload();
+              setTimeout(function(){
+                window.location.href='/teacher';                
+              },1500);
             }
             else if(data.status==='false'){
               _this.dialogShow('布置作业失败，请稍后重试');

@@ -12,6 +12,17 @@ const app = new Vue({
     if(!sessionStorage.number||sessionStorage.number=='null'){
         //this.currentRoute='/';      
     }  
+    else{
+      var type=window.location.pathname.split('/').splice(1,1).pop()+'_info';
+      console.log(type);
+      if(type!==sessionStorage.type){
+        sessionStorage.number=null;
+        sessionStorage.type=null;
+        sessionStorage.name=null;
+        this.currentRoute='/';
+      }
+      
+    }
   },
   computed: {
     ViewComponent () {

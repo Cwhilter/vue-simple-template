@@ -87,7 +87,7 @@
                 if(data.status==='success'){
                   document.cookie=encodeURIComponent('number')+'='+encodeURIComponent(user.number);
                   sessionStorage.number=user.number;
-                  sessionStorage.type='teacher_info';
+                  sessionStorage.type=user.type;
                   sessionStorage.name=data.name;
 
                   _this.showMessage('登录成功',false);

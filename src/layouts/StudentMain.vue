@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
   <div class="navbar-header">
-    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/">作业提交与批改系统</v-link>
+    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student">作业提交与批改系统</v-link>
   </div>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 
@@ -297,6 +297,7 @@
   }
 }
 .username{
+    letter-spacing: 2px;
     cursor: pointer;
     float: right;
     font-size: 15px;

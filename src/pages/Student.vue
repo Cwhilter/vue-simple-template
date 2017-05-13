@@ -1,23 +1,26 @@
 <template>
   <main-layout index='true'>
   <div class="container">
-  	<div class="chunk">
-  		<span class="glyphicon glyphicon-upload"></span>
+  	<a class="chunk" href="/student/commit">
+  		<span class="glyphicon glyphicon-open"></span>
   		<p>提交作业</p>
-  		<p class="detail">查看</p>
-  	</div>
-  	<div class="chunk">
+  		<p class="detail">查看、提交未完成作业</p>
+  	</a>
+  	<a class="chunk">
   		<span class="glyphicon glyphicon-search"></span>
-  		<span>查看作业</span>
-  	</div> 
-  	<div class="chunk">
-  		<span class="glyphicon glyphicon-download"></span>
-  		<span>下载作业</span>
-  	</div> 
-  	<div class="chunk">
-  		<span class="glyphicon glyphicon-download"></span>
-  		<span>下载作业</span>
-  	</div> 
+  		<p>查看作业</p>
+  		<p class="detail">查看已完成作业</p>
+  	</a> 
+  	<a class="chunk">
+  		<span class="glyphicon glyphicon-picture"></span>
+  		<p>成绩统计</p>
+  		<p class="detail">个人成绩统计图</p>
+  	</a> 
+  	<a class="chunk">
+  		<span class="glyphicon glyphicon-globe"></span>
+  		<p>更多功能</p>
+  		<p class="detail">敬请期待。。</p>
+  	</a> 
    </div> 
   </main-layout>
 </template>
@@ -58,8 +61,11 @@
 </script>
 <style scoped>
 .chunk{
+	display: inline-block;
 	text-align: center;
-	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	font-size: 20px;
 	width: 20%;
 	margin:100px 10px 0 40px;
 	float: left;
@@ -69,7 +75,7 @@
 	cursor: pointer;
 }
 .chunk p{
-	line-height: 20px;
+	line-height: 28px;
 }
 .chunk:hover{
 	background: #2ABCB9;
@@ -78,12 +84,13 @@
 .chunk span.glyphicon{	
 	height: 100px;
 	line-height: 100px;
-	margin-top: 65px;
+	margin-top: 50px;
 	height: 80px;
-	font-size: 50px;	
+	font-size: 60px;	
 }
-.chunk span.detail{
-	font-size: 12px;
+.chunk p.detail{
+	font-weight: 500;
+	font-size: 14px;
 	vertical-align: top;
 }
 </style>

@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
   <div class="navbar-header">
-    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/">作业提交与批改系统</v-link>
+    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/teacher">作业提交与批改系统</v-link>
   </div>
   <ul class="nav-list">
     <li><v-link href="/teacher" :class="{'active':index}">作业信息</v-link></li>
@@ -303,6 +303,7 @@
   }
 }
 .username{
+    letter-spacing: 2px;
     cursor: pointer;
     float: right;
     font-size: 15px;

@@ -6,5 +6,6 @@ export default {
   '/about': 'About',
   '/teacher/arrage':'Arrage',
   '/teacher/statistics':'Statistics',
-  '/student':'Student'
+  '/student':'Student',
+  '/student/commit':'Commit'
 }
