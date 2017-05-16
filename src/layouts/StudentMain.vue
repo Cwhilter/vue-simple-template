@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
   <div class="navbar-header">
-    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student" title="返回首页">作业提交与批改系统</v-link>
+    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student" title="返回首页">作业提交与批改系统</v-link><span>{{message}}</span>
   </div>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 
@@ -248,7 +248,7 @@
           this.showMessage('信息未填写完成',true);
         }
     },
-    props:['index','student','arrage','statistics']
+    props:['index','student','arrage','statistics','message']
   }
 </script>
 
@@ -285,6 +285,10 @@
   line-height: 48px;
   margin-right: 15px;
   vertical-align: middle;
+}
+.navbar-header span{
+  color: #2ABCB9;
+  font-size: 17px;
 }
 .nav-list{
   font-size: 15px;

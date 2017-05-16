@@ -1,5 +1,5 @@
 <template>
-  <main-layout index='true'>
+  <main-layout index='true' message='- -查看作业'>
   <div class="container">
     <div class="homework-list" v-for="item in homework_list" v-if="homework_list.length>0">
       <div class="file-img"><img src="../assets/images/file.png"></div>
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="option" v-if="item.score<0">
-        <span><a href="javascript:void(0)" :id="item.code" @click="deleteFile">删除作业</a></span>
+        <span><a href="javascript:void(0)" @click="deleteFile(item)">重新提交</a></span>
       </div>
       <div class="option">
         <span><a :href="'/hsc/student/downloadFile?code='+item.code">查看作业</a></span>
@@ -48,19 +48,13 @@
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
-        	console.log(data);
           if(data.status==='success'){
-          	console.log(data);
             _this.homework_list=data.result;
-            console.log(_this.homework_list);      
-            console.log(_this.homework_list.length);      
           }
           else{
-          	console.log('error')
           }
         },
         error: function(error) {
-           console.log('hello')
         }
       });
     },
@@ -76,8 +70,24 @@
           _this.dialog_show=false;
         },1500)
       },
-      deleteFile(){
-
+      deleteFile(item){
+        var data={code:item.code};
+        $.ajax({
+          type: 'post',
+          data:data,
+          url: "/hsc/student/deleteHomework",
+          dataType: 'json',
+          timeout: 60000,
+          success: function(data) {
+            if(data.status==='success'){
+              window.location.href='/student/commit';
+            }
+            else{
+            }
+          },
+          error: function(error) {
+          }
+        });
       }
   	},
     components: {

@@ -4,7 +4,7 @@
   	<a class="chunk" href="/student/commit">
   		<span class="glyphicon glyphicon-open"></span>
   		<p>提交作业</p>
-  		<p class="detail">查看、提交未完成作业</p>
+  		<p class="detail">查看布置题目、提交未完成作业</p>
   	</a>
   	<a class="chunk" href="/student/homeworkList">
   		<span class="glyphicon glyphicon-search"></span>

@@ -124,33 +124,43 @@
         },1500)
       },
       submit(){
-        var _this=this;
-        this.arrage.teacher_name=sessionStorage.name;
-        this.arrage.teacher_number=sessionStorage.number;
         this.arrage.course_end=$('#end').val();
-        this.arrage.course_start=new Date().Format("yyyy-MM-dd");
-        var data={arrage:this.arrage};
-        $.ajax({
-          type: 'post',
-          data:data,
-          url: "/hsc/teacher/arrage",
-          dataType: 'json',
-          timeout: 60000,
-          success: function(data) {
-            if(data.status==='success'){
-              _this.dialogShow('布置作业成功');
-              setTimeout(function(){
-                window.location.href='/teacher';                
-              },1500);  
+        if(!this.arrage.course_name){
+          this.dialogShow('作业名称不能为空');
+        }else if(!this.arrage.course_class){
+          this.dialogShow('所属班级不能为空');          
+        }else if(!this.arrage.course_end){
+          this.dialogShow('截止日期不能为空');          
+        }
+        else{
+          var _this=this;
+          this.arrage.teacher_name=sessionStorage.name;
+          this.arrage.teacher_number=sessionStorage.number;         
+          this.arrage.course_start=new Date().Format("yyyy-MM-dd");
+          var data={arrage:this.arrage};
+          $.ajax({
+            type: 'post',
+            data:data,
+            url: "/hsc/teacher/arrage",
+            dataType: 'json',
+            timeout: 60000,
+            success: function(data) {
+              if(data.status==='success'){
+                _this.dialogShow('布置作业成功');
+                setTimeout(function(){
+                  window.location.href='/teacher';                
+                },1500);  
+              }
+              else if(data.status==='false'){
+                _this.dialogShow('布置作业失败，请稍后重试');
+              }
+            },
+            error: function(error) {
+               
             }
-            else if(data.status==='false'){
-              _this.dialogShow('布置作业失败，请稍后重试');
-            }
-          },
-          error: function(error) {
-             
-          }
-        });
+          });
+        }
+        
       }
     }
   }

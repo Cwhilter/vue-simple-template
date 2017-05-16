@@ -1,7 +1,7 @@
 <template>
-  <main-layout index='true'>
+  <main-layout index='true' message='- -提交作业'>
   <div class="container">
-    <div class="homework-list" v-for="item in homework_list" v-if="homework_list.length>0">
+    <div class="homework-list" v-for="(item,index) in homework_list" v-if="homework_list.length>0">
       <div class="file-img"><img src="../assets/images/file.png"></div>
       <div class="detail">
         <div class="file-name">{{item.name}}</div>
@@ -9,13 +9,14 @@
           <i class="glyphicon glyphicon-time"></i><span>布置时间：{{item.course_start}}</span>      
           <i class="glyphicon glyphicon-time"></i><span>截止时间：{{item.course_end}}</span>
           <i class="glyphicon glyphicon-tag"></i><span>任课教师：{{item.teacher_name}}</span>
+          <i class="glyphicon glyphicon-pushpin"></i><span>状态：未提交</span>
         </div>
       </div>
       <div class="option">
-        <span><input type="file" name="file" class="layui-upload-file" :id="item.code"><label>提交作业</label></span>
+        <span><input type="file" name="file" class="layui-upload-file" :id="index"><label>提交作业</label></span>
       </div>
       <div class="option">
-        <span><a :href="'/hsc/student/download?code='+item.code">下载作业</a></span>
+        <span><a :href="'/hsc/student/download?code='+item.code">下载题目</a></span>
       </div>
     </div>
     </div> 
@@ -36,6 +37,7 @@
          homework_list:[],
          message:'',
          dialog_show:false,
+         expire:false
       }
     },
     created(){   
@@ -63,30 +65,62 @@
         unwrap: true,
         ext:'docx|doc|pdf|jpg|png|zip|rar|gif|html',
         before:function(input){
-        	 console.log(input);
+           var index=input.id;
+           var course_end=_this.homework_list[index].course_end;
+           var now=Date.parse(new Date());
+           var _end=new Date(Date.parse(course_end));
+           var end=Date.parse(_end);
+           if (now>end) {
+              _this.expire=true;
+           }
         },
         success: function(res,input){
-          if(res.status==='success'){            
-            var data={filename:res.filename,code:input.id}
-            $.ajax({
-		        type: 'post',
-		        data:data,
-		        url: "/hsc/student/insertUpload",
-		        dataType: 'json',
-		        timeout: 60000,
-		        success: function(data) {
-		          if(data.status==='success'){
-		             _this.dialogShow("上传成功");     
-		             window.location.reload();       
-		          }
-		        },
-		        error: function(error) {
-		           _this.dialogShow("上传失败，请稍后重试")
-		        }
-		      });
+          var index=input.id;
+          var code=_this.homework_list[index].code;
+          if(res.status==='success'){
+            if(_this.expire){
+              var data={filename:res.filename};
+              $.ajax({
+                type: 'post',
+                data:data,
+                url: "/hsc/student/deleteFile",
+                dataType: 'json',
+                timeout: 60000,
+                success: function(data) {
+                  if(data.status==='success'){
+                     _this.dialogShow("已超过截止日期，无法提交");         
+                  }
+                },
+                error: function(error) {
+                   _this.dialogShow("上传失败，请稍后重试")
+                }
+              });
+            }else{
+              var data={filename:res.filename,code:code}
+              $.ajax({
+                type: 'post',
+                data:data,
+                url: "/hsc/student/insertUpload",
+                dataType: 'json',
+                timeout: 60000,
+                success: function(data) {
+                  if(data.status==='success'){
+                     _this.dialogShow("上传成功");  
+                     setTimeout(function(){
+                        window.location.reload();  
+                     },2000);   
+                          
+                  }
+                },
+                error: function(error) {
+                   _this.dialogShow("上传失败，请稍后重试")
+                }
+              });
+            }            
+            
           }
           else{
-            _this.dialogShow("上传失败，请稍后重试")
+            _this.dialogShow("上传失败")
           }
         }
 
@@ -99,7 +133,7 @@
         var _this=this;
         setTimeout(function(){
           _this.dialog_show=false;
-        },1500)
+        },2000)
       }
   	},
     components: {
