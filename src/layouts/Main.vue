@@ -68,6 +68,10 @@
                 <span class="input-group-addon">年龄</span>
                 <input v-model="data.age" @keyup="clearMessage" type="text" class="form-control">
               </div>
+              <div class="input-group">
+                <span class="input-group-addon">电话</span>
+                <input v-model="data.phone_number" @keyup="clearMessage" type="text" class="form-control">
+              </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -90,11 +94,11 @@
             </div>
             <div class="modal-body">
               <div class="input-group">
-                <span class="input-group-addon">&nbsp原&nbsp密&nbsp码&nbsp</span>
+                <span class="input-group-addon">原&nbsp密&nbsp码&nbsp</span>
                 <input v-model="password.origin" @keyup="clearMessage" type="password" class="form-control" placeholder="请输入原密码">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">&nbsp新&nbsp密&nbsp码&nbsp</span>
+                <span class="input-group-addon">新&nbsp密&nbsp码&nbsp</span>
                 <input v-model="password.newPassword" @keyup="clearMessage" type="password" class="form-control" placeholder="长度6到20位">
               </div>
               <div class="input-group">
@@ -109,6 +113,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<dialog-components :message="msg" v-if="dialog_show"></dialog-components>
 <div id="footer">
   <div class="container">
     <div class="footer-body">
@@ -121,10 +126,13 @@
 
 <script>
   import VLink from '../components/VLink.vue'
+  import Dialog from '../components/Dialog.vue'
 
   export default {
     data(){
       return{
+        msg:'',
+        dialog_show:false,
         user:{
           name:'',
           type:'',
@@ -139,7 +147,8 @@
           name:'',
           sex:'',
           position:'',
-          age:''
+          age:'',
+          phone_number:''
         },
         alert:false,
         warning:false,
@@ -164,23 +173,34 @@
           break;
       }
       var _this=this;
-      /*$.ajax({
+      $.ajax({
         type: 'get',
-        url: "/v1/apt/passwd/change",
+        url: "/hsc/teacher/getPersonalInfo",
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
-
+          if(data.status==='success'){
+            _this.data=data.result;
+          }
         },
         error: function(error) {
            
         }
-      });*/
+      });
     },
     components: {
-      VLink
+      VLink,
+      'dialog-components':Dialog
     },
     methods:{
+      dialogShow(msg){
+        this.dialog_show=true;
+        this.msg=msg;
+        var _this=this;
+        setTimeout(function(){
+          _this.dialog_show=false;
+        },1500)
+      },
       logout(){
         $.ajax({
           type: 'get',
@@ -233,25 +253,55 @@
             $.ajax({
               type: 'post',
               data: changePassword,
-              url: "/v1/apt/passwd/change",
+              url: "/hsc/teacher/changePassword",
               dataType: 'json',
               timeout: 60000,
               success: function(data) {
-                if(data.code === 0) {
-                  window.location.href = window.location.href;
+                if(data.status === 'success') {
+                  $('#changePassword').modal('hide');
+                  _this.dialogShow('修改成功');
+                  setTimeout(function(){
+                    window.location.reload();
+                  },2000);
                 } else {
                   _this.message = '原始密码不正确';
                 }
               },
               error: function(error) {
-                 
+                 _this.message = '修改失败，请稍后重试';
               }
             });
           } 
 
         },
-        changeData(){
-          this.showMessage('信息未填写完成',true);
+        changeData(){       
+          for(var item in this.data){
+            if(!this.data[item]){
+              this.showMessage('信息未填写完成',true);
+              return false;
+            }
+          }
+          var _this=this;
+          var data={data:this.data};
+          $.ajax({
+            type: 'post',
+            data:data,
+            url: "/hsc/teacher/updatePersonalInfo",
+            dataType: 'json',
+            timeout: 60000,
+            success: function(data) {
+              if(data.status==='success'){
+                $('#myModal').modal('hide');
+                _this.dialogShow('修改成功');
+                setTimeout(function(){
+                  window.location.reload();
+                },2000);
+              }
+            },
+            error: function(error) {
+               
+            }
+          });
         }
     },
     props:['index','student','arrage','statistics']

@@ -1,5 +1,5 @@
 <template>
-  <main-layout index='true' message='- -查看作业'>
+  <main-layout index='true' page='- -查看作业'>
   <div class="container">
     <div class="homework-list" v-for="item in homework_list" v-if="homework_list.length>0">
       <div class="file-img"><img src="../assets/images/file.png"></div>
@@ -10,7 +10,7 @@
           <i class="glyphicon glyphicon-time"></i><span>截止时间：{{item.course_end}}</span>
           <i class="glyphicon glyphicon-tag"></i><span>任课教师：{{item.teacher_name}}</span>
           <i class="glyphicon glyphicon-info-sign" v-if="item.score>=0"></i><span v-if="item.score>=0">分数：{{item.score}}</span>
-          <i class="glyphicon glyphicon-pushpin" v-if="item.score<0"></i><span>状态：未批改</span>
+          <i class="glyphicon glyphicon-pushpin" v-if="item.score<0"></i><span v-if="item.score<0">状态：未批改</span>
         </div>
       </div>
       <div class="option" v-if="item.score<0">

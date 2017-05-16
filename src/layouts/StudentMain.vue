@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
   <div class="navbar-header">
-    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student" title="返回首页">作业提交与批改系统</v-link><span>{{message}}</span>
+    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student" title="返回首页">作业提交与批改系统</v-link><span>{{page}}</span>
   </div>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 
@@ -55,12 +55,16 @@
                 <input v-model="data.sex" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">职位</span>
-                <input v-model="data.position" @keyup="clearMessage" type="text" class="form-control">
+                <span class="input-group-addon">专业</span>
+                <input v-model="data.major" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
                 <span class="input-group-addon">年龄</span>
                 <input v-model="data.age" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">电话</span>
+                <input v-model="data.phone_number" @keyup="clearMessage" type="text" class="form-control">
               </div>
             </div>
             <div class="modal-footer">
@@ -103,6 +107,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<dialog-components :message="msg" v-if="dialog_show"></dialog-components>
 <div id="footer">
   <div class="container">
     <div class="footer-body">
@@ -115,10 +120,13 @@
 
 <script>
   import VLink from '../components/VLink.vue'
+  import Dialog from '../components/Dialog.vue'
 
   export default {
     data(){
       return{
+        msg:'',
+        dialog_show:false,
         user:{
           name:'',
           type:'',
@@ -132,8 +140,9 @@
         data:{
           name:'',
           sex:'',
-          position:'',
-          age:''
+          major:'',
+          age:'',
+          phone_number:''
         },
         alert:false,
         warning:false,
@@ -158,23 +167,34 @@
           break;
       }
       var _this=this;
-      /*$.ajax({
+      $.ajax({
         type: 'get',
-        url: "/v1/apt/passwd/change",
+        url: "/hsc/student/getPersonalInfo",
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
-
+          if(data.status==='success'){
+            _this.data=data.result;
+          }
         },
         error: function(error) {
            
         }
-      });*/
+      }); 
     },
     components: {
-      VLink
+      VLink,
+      'dialog-components':Dialog
     },
     methods:{
+      dialogShow(msg){
+        this.dialog_show=true;
+        this.msg=msg;
+        var _this=this;
+        setTimeout(function(){
+          _this.dialog_show=false;
+        },1500)
+      },
       logout(){
         $.ajax({
           type: 'get',
@@ -227,28 +247,58 @@
             $.ajax({
               type: 'post',
               data: changePassword,
-              url: "/v1/apt/passwd/change",
+              url: "/hsc/student/changePassword",
               dataType: 'json',
               timeout: 60000,
               success: function(data) {
-                if(data.code === 0) {
-                  window.location.href = window.location.href;
+                if(data.status === 'success') {
+                  $('#changePassword').modal('hide');
+                  _this.dialogShow('修改成功');
+                  setTimeout(function(){
+                    window.location.reload();
+                  },2000);
                 } else {
                   _this.message = '原始密码不正确';
                 }
               },
               error: function(error) {
-                 
+                 _this.message = '修改失败，请稍后重试';
               }
-            });
+            }); 
           } 
 
         },
         changeData(){
-          this.showMessage('信息未填写完成',true);
+          for(var item in this.data){
+            if(!this.data[item]){
+              this.showMessage('信息未填写完成',true);
+              return false;
+            }
+          }
+          var _this=this;
+          var data={data:this.data};
+          $.ajax({
+            type: 'post',
+            data:data,
+            url: "/hsc/student/updatePersonalInfo",
+            dataType: 'json',
+            timeout: 60000,
+            success: function(data) {
+              if(data.status==='success'){
+                $('#myModal').modal('hide');
+                _this.dialogShow('修改成功');
+                setTimeout(function(){
+                  window.location.reload();
+                },2000);
+              }
+            },
+            error: function(error) {
+               
+            }
+          });
         }
     },
-    props:['index','student','arrage','statistics','message']
+    props:['index','student','arrage','statistics','page']
   }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <main-layout index='true' message='- -提交作业'>
+  <main-layout index='true' page='- -提交作业'>
   <div class="container">
     <div class="homework-list" v-for="(item,index) in homework_list" v-if="homework_list.length>0">
       <div class="file-img"><img src="../assets/images/file.png"></div>
