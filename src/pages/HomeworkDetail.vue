@@ -24,8 +24,8 @@
             <td>{{item.student_number}}</td>
             <td>{{item.student_name}}</td>
             <td>{{item.status}}</td>
-            <td>{{item.score}}</td>
-            <td><a href="">查看作业</a></td>
+            <td>{{item.score>=0?item.score:null}}</td>
+            <td><a href="" v-if="item.status==='已提交'">查看作业</a></td>
           </tr>
           
         </tbody>

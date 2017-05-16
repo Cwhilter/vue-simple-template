@@ -9,13 +9,15 @@
           <i class="glyphicon glyphicon-time"></i><span>布置时间：{{item.course_start}}</span>      
           <i class="glyphicon glyphicon-time"></i><span>截止时间：{{item.course_end}}</span>
           <i class="glyphicon glyphicon-tag"></i><span>任课教师：{{item.teacher_name}}</span>
+          <i class="glyphicon glyphicon-info-sign" v-if="item.score>=0"></i><span v-if="item.score>=0">分数：{{item.score}}</span>
+          <i class="glyphicon glyphicon-pushpin" v-if="item.score<0"></i><span>状态：未批改</span>
         </div>
       </div>
-      <div class="option">
-        <span><input type="file" name="file" class="layui-upload-file" :id="item.code"><label>提交作业</label></span>
+      <div class="option" v-if="item.score<0">
+        <span><a href="javascript:void(0)" :id="item.code" @click="deleteFile">删除作业</a></span>
       </div>
       <div class="option">
-        <span><a :href="'/hsc/student/download?code='+item.code">下载作业</a></span>
+        <span><a :href="'/hsc/student/downloadFile?code='+item.code">查看作业</a></span>
       </div>
     </div>
     </div> 
@@ -42,55 +44,28 @@
       var _this=this;	
       $.ajax({
         type: 'get',
-        url: "/hsc/student/getHomeworkList",
+        url: "/hsc/student/getScore",
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
+        	console.log(data);
           if(data.status==='success'){
-            _this.homework_list=data.result;            
+          	console.log(data);
+            _this.homework_list=data.result;
+            console.log(_this.homework_list);      
+            console.log(_this.homework_list.length);      
+          }
+          else{
+          	console.log('error')
           }
         },
         error: function(error) {
-           
+           console.log('hello')
         }
       });
     },
     updated(){
-    	var _this=this;
-    	layui.upload({
-        url: '/hsc/student/upload',
-        type: 'file',
-        unwrap: true,
-        ext:'docx|doc|pdf|jpg|png|zip|rar|gif|html',
-        before:function(input){
-        	 console.log(input);
-        },
-        success: function(res,input){
-          if(res.status==='success'){            
-            var data={filename:res.filename,code:input.id}
-            $.ajax({
-		        type: 'post',
-		        data:data,
-		        url: "/hsc/student/insertUpload",
-		        dataType: 'json',
-		        timeout: 60000,
-		        success: function(data) {
-		          if(data.status==='success'){
-		             _this.dialogShow("上传成功");     
-		             window.location.reload();       
-		          }
-		        },
-		        error: function(error) {
-		           _this.dialogShow("上传失败，请稍后重试")
-		        }
-		      });
-          }
-          else{
-            _this.dialogShow("上传失败，请稍后重试")
-          }
-        }
-
-      });
+    	
     },
     methods:{
       dialogShow(msg){
@@ -100,6 +75,9 @@
         setTimeout(function(){
           _this.dialog_show=false;
         },1500)
+      },
+      deleteFile(){
+
       }
   	},
     components: {

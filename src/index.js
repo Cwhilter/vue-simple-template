@@ -9,12 +9,12 @@ const app = new Vue({
     currentRoute: window.location.pathname
   },
   created(){ 
+    console.log(document.cookie);
     if(!sessionStorage.number||sessionStorage.number=='null'){
-        //this.currentRoute='/';      
+        this.currentRoute='/';      
     }  
     else{
       var type=window.location.pathname.split('/').splice(1,1).pop()+'_info';
-      console.log(type);
       if(type!==sessionStorage.type){
         sessionStorage.number=null;
         sessionStorage.type=null;

@@ -1,11 +1,11 @@
 export default {
   '/teacher':'Teacher',
+  '/forbid':'404',
   '/': 'Login',
   '/teacher/homeworkDetail':'HomeworkDetail',
   '/teacher/studentInfo':'StudentInfo',
-  '/about': 'About',
   '/teacher/arrage':'Arrage',
-  '/teacher/statistics':'Statistics',
   '/student':'Student',
-  '/student/commit':'Commit'
+  '/student/commit':'Commit',
+  '/student/homeworkList':'HomeworkList'
 }

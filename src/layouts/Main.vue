@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
   <div class="navbar-header">
-    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/teacher">作业提交与批改系统</v-link>
+    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/teacher" title="返回首页">作业提交与批改系统</v-link>
   </div>
   <ul class="nav-list">
     <li><v-link href="/teacher" :class="{'active':index}">作业信息</v-link></li>
@@ -182,9 +182,25 @@
     },
     methods:{
       logout(){
-        sessionStorage.number=null;
-        sessionStorage.type=null;
-        window.location.reload();
+        $.ajax({
+          type: 'get',
+          url: "/hsc/common/loginOut",
+          dataType: 'json',
+          timeout: 60000,
+          success: function(data) {
+            if(data.status === 'success') {
+              sessionStorage.number=null;
+              sessionStorage.type=null;
+              sessionStorage.name=null;
+              window.location.reload();
+            } else {
+              
+            }
+          },
+          error: function(error) {
+             
+          }
+        });            
       },
       clearMessage(){
         this.alert=false;
@@ -303,7 +319,7 @@
   }
 }
 .username{
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     cursor: pointer;
     float: right;
     font-size: 15px;

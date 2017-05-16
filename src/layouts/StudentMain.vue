@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
   <div class="navbar-header">
-    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student">作业提交与批改系统</v-link>
+    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student" title="返回首页">作业提交与批改系统</v-link>
   </div>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 
@@ -176,9 +176,25 @@
     },
     methods:{
       logout(){
-        sessionStorage.number=null;
-        sessionStorage.type=null;
-        window.location.reload();
+        $.ajax({
+          type: 'get',
+          url: "/hsc/common/loginOut",
+          dataType: 'json',
+          timeout: 60000,
+          success: function(data) {
+            if(data.status === 'success') {
+              sessionStorage.number=null;
+              sessionStorage.type=null;
+              sessionStorage.name=null;
+              window.location.reload();
+            } else {
+              
+            }
+          },
+          error: function(error) {
+             
+          }
+        });       
       },
       clearMessage(){
         this.alert=false;
@@ -297,7 +313,7 @@
   }
 }
 .username{
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     cursor: pointer;
     float: right;
     font-size: 15px;
@@ -309,7 +325,7 @@
   right: 0;
   top: 50px;
   position: absolute;
-  z-index: 10;
+  z-index: 20;
   li{
     cursor: pointer;
     width: 100px;

@@ -85,11 +85,12 @@
               timeout: 60000,
               success: function (data) {
                 if(data.status==='success'){
-                  document.cookie=encodeURIComponent('number')+'='+encodeURIComponent(user.number);
                   sessionStorage.number=user.number;
                   sessionStorage.type=user.type;
                   sessionStorage.name=data.name;
-
+                  var date = new Date();
+                  date.setTime(date.getTime() + 300000);
+                  document.cookie=encodeURIComponent('number')+'='+encodeURIComponent(user.number);
                   _this.showMessage('登录成功',false);
                   var href='';
                   if(_this.user.type==='teacher_info'){

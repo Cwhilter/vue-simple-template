@@ -98,7 +98,7 @@
           else{
             _this,dialogShow("上传失败，请稍后重试")
           }
-        },
+        }
 
       });
       //初始化日期插件
@@ -141,7 +141,7 @@
               _this.dialogShow('布置作业成功');
               setTimeout(function(){
                 window.location.href='/teacher';                
-              },1500);
+              },1500);  
             }
             else if(data.status==='false'){
               _this.dialogShow('布置作业失败，请稍后重试');

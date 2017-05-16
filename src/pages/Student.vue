@@ -6,10 +6,10 @@
   		<p>提交作业</p>
   		<p class="detail">查看、提交未完成作业</p>
   	</a>
-  	<a class="chunk">
+  	<a class="chunk" href="/student/homeworkList">
   		<span class="glyphicon glyphicon-search"></span>
   		<p>查看作业</p>
-  		<p class="detail">查看已完成作业</p>
+  		<p class="detail">查看已提交作业</p>
   	</a> 
   	<a class="chunk">
   		<span class="glyphicon glyphicon-picture"></span>
