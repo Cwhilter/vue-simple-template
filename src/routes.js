@@ -8,5 +8,7 @@ export default {
   '/student':'Student',
   '/student/commit':'Commit',
   '/student/homeworkList':'HomeworkList',
-  '/admin':'Admin'
+  '/admin':'Admin',
+  '/admin/teacherInfo':'TeacherInfo',
+  '/admin/homeworkInfo':'HomeworkInfo'
 }

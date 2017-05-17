@@ -1,37 +1,28 @@
 <template>
-  <main-layout student='true'>
+  <main-layout teacher='true'>
   <div class="t-index">
 	<div class="container">
 	  <table class="table">
-        <caption>
-  		    <div class="input-group input-groups">
-  		      <span class="input-group-addon">班&nbsp&nbsp&nbsp级</span>
-  		      <select class="form-control" v-model="currentClass">
-  		        <option v-for="list in class_info">{{list}}</option>		        
-  		      </select>
-  		    </div>
-        	<button class="btn btn-primary" @click="choose">查看</button>
-        </caption>
         <thead>
           <tr>
-            <th>学号</th>
+            <th>编号</th>
             <th>姓名</th>
             <th>性别</th>
             <th>年龄</th>
-            <th>专业</th>
-            <th>班级</th>
+            <th>职位</th>   
+            <th>所带班级</th>         
             <th>联系方式</th>
             <th>操作</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) in student_info" :class="{'active':index%2}">
+          <tr v-for="(item,index) in teacher_info" :class="{'active':index%2}">
             <td>{{item.number}}</td>
             <td>{{item.name}}</td>
             <td>{{item.sex}}</td>
             <td>{{item.age}}</td>
-            <td>{{item.major}}</td>
-            <td>{{item.class}}</td>
+            <td>{{item.position}}</td>
+            <td>{{item.classes}}</td>
             <td>{{item.phone_number}}</td>
             <td><i class="glyphicon glyphicon-edit" @click="showModal" :id="index" title="编辑"></i><i class="glyphicon glyphicon-trash" title="删除" :id="index" @click="deleteCourse"></i></td>
           </tr>
@@ -48,7 +39,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">编辑学生信息</h4>
+                <h4 class="modal-title" id="myModalLabel">编辑教师信息</h4>
             </div>
             <div class="modal-body">
               <div class="input-group">
@@ -61,7 +52,7 @@
               </div>
               <div class="input-group">
                 <span class="input-group-addon">专业</span>
-                <input v-model="data.major" @keyup="clearMessage" type="text" class="form-control">
+                <input v-model="data.position" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
                 <span class="input-group-addon">年龄</span>
@@ -74,7 +65,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" @click="changeData">修改</button>
+                <button type="button" class="btn btn-primary" @click="changeData">注册</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -89,14 +80,12 @@
   export default {
     data(){
       return{
-        class_info:[],
-        student_info:[],
-        currentClass:'',
+        teacher_info:[],
         data:{
           number:'',
           name:'',
           sex:'',
-          major:'',
+          position:'',
           age:'',
           phone_number:''
         },
@@ -106,11 +95,14 @@
       } 
     },
     methods:{
+      deleteCourse(event){
+
+      },
       showModal(event){
       	$('#editInfo').modal('toggle');
       	var target=event.target;
       	var index=$(target).attr("id");
-      	this.data=this.student_info[index];
+      	this.data=this.teacher_info[index];
       },
       showMessage(msg,warning){
         this.message=msg;
@@ -121,29 +113,6 @@
         this.alert=false;
         this.message='';
       }, 
-      choose(){
-        this.student_info.length=0;
-        var _this=this;
-        var data={class:this.currentClass};
-        $.ajax({
-          type: 'post',
-          data:data,
-          url: "/hsc/admin/getStudentInfo",
-          dataType: 'json',
-          timeout: 60000,
-          success: function(data) {
-            if(data.status==='success'){
-              _this.student_info=data.result;
-            }
-            else if(data.status==='false'){
-              _this.student_info=[];
-            }
-          },
-          error: function(error) {
-             
-          }
-        });
-      },
       changeData(){
           for(var item in this.data){
             if(!this.data[item]){
@@ -181,33 +150,12 @@
       var _this=this;
       $.ajax({
         type: 'get',
-        url: "/hsc/admin/getClassInfo",
+        url: "/hsc/admin/getTeacherInfo",
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
           if(data.status==='success'){
-            _this.class_info=data.result;
-            _this.currentClass=_this.class_info[0];
-            _this.student_info.length=0;
-            var data={class:_this.currentClass};
-            $.ajax({
-              type: 'post',
-              data:data,
-              url: "/hsc/admin/getStudentInfo",
-              dataType: 'json',
-              timeout: 60000,
-              success: function(data) {
-                if(data.status==='success'){
-                  _this.student_info=data.result;
-                }
-                else if(data.status==='false'){
-                  _this.student_info=[];
-                }
-              },
-              error: function(error) {
-                 
-              }
-            });
+            _this.teacher_info=data.result;
           }
         },
         error: function(error) {
@@ -222,6 +170,7 @@
 .table th{
   text-align: center;
   vertical-align: middle;
+  border-top: 1px solid #ddd;
 }
 .table td{
   vertical-align: middle;

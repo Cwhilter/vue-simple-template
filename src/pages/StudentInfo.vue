@@ -17,6 +17,7 @@
             <th>学号</th>
             <th>姓名</th>
             <th>性别</th>
+            <th>年龄</th>
             <th>专业</th>
             <th>班级</th>
             <th>联系方式</th>
@@ -27,6 +28,7 @@
             <td>{{item.number}}</td>
             <td>{{item.name}}</td>
             <td>{{item.sex}}</td>
+            <td>{{item.age}}</td>
             <td>{{item.major}}</td>
             <td>{{item.class}}</td>
             <td>{{item.phone_number}}</td>

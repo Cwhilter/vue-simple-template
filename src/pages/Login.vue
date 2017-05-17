@@ -78,15 +78,19 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<dialog-components :message="msg" v-if="dialog_show"></dialog-components>
 </div>
 
 </template>
 
 <script>
   import Cookies from '../assets/lib/cookies.js'
+  import Dialog from '../components/Dialog.vue'
   export default {
     data() {
       return {
+        msg:'',
+        dialog_show:false,
         user:{
           type:'',
           number:'',
@@ -111,6 +115,14 @@
       }
     },
     methods: {
+      dialogShow(msg){
+        this.dialog_show=true;
+        this.msg=msg;
+        var _this=this;
+        setTimeout(function(){
+          _this.dialog_show=false;
+        },1500)
+      },
       showMessage(msg,warning){
         this.message=msg;
         this.warning=warning;
@@ -190,7 +202,7 @@
             success: function(data) {
               if(data.status==='success'){
                 $('#myModal').modal('hide');
-                _this.dialogShow('修改成功');
+                _this.dialogShow('注册成功');
                 setTimeout(function(){
                   window.location.reload();
                 },2000);
@@ -215,7 +227,7 @@
       }
     },
     components: {
-      
+      'dialog-components':Dialog
     }
   }
 </script>

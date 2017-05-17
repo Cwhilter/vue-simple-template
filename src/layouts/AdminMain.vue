@@ -6,10 +6,11 @@
     <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/teacher" title="返回首页">作业提交与批改系统</v-link>
   </div>
   <ul class="nav-list">
-    <li><v-link href="/teacher" :class="{'active':index}">作业信息</v-link></li>
-    <li><v-link href="/teacher/arrage" :class="{'active':arrage}">教师信息</v-link></li>
-    <li><v-link href="/teacher/studentInfo" :class="{'active':student}">学生信息</v-link></li>
-    <li><v-link href="/teacher/statistics" :class="{'active':statistics}">班级信息</v-link></li>
+  <li><v-link href="/admin" :class="{'active':student}">学生信息</v-link></li>
+    <li><v-link href="/admin/homeworkInfo" :class="{'active':homework}">作业信息</v-link></li>
+    <li><v-link href="/admin/teacherInfo" :class="{'active':teacher}">教师信息</v-link></li>
+    
+    <li><v-link href="/admin/classInfo" :class="{'active':statistics}">班级信息</v-link></li>
   </ul>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 
@@ -55,23 +56,15 @@
             <div class="modal-body">
               <div class="input-group">
                 <span class="input-group-addon">姓名</span>
-                <input v-model="data.name" @keyup="clearMessage" type="text" class="form-control">
+                <input v-model="admin.name" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
                 <span class="input-group-addon">性别</span>
-                <input v-model="data.sex" @keyup="clearMessage" type="text" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon">职位</span>
-                <input v-model="data.position" @keyup="clearMessage" type="text" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon">年龄</span>
-                <input v-model="data.age" @keyup="clearMessage" type="text" class="form-control">
+                <input v-model="admin.sex" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
                 <span class="input-group-addon">电话</span>
-                <input v-model="data.phone_number" @keyup="clearMessage" type="text" class="form-control">
+                <input v-model="admin.phone_number" @keyup="clearMessage" type="text" class="form-control">
               </div>
             </div>
             <div class="modal-footer">
@@ -145,11 +138,9 @@
           newPassword: '',
           again: ''
         },
-        data:{
+        admin:{
           name:'',
           sex:'',
-          position:'',
-          age:'',
           phone_number:''
         },
         alert:false,
@@ -177,12 +168,12 @@
       var _this=this;
       $.ajax({
         type: 'get',
-        url: "/hsc/teacher/getPersonalInfo",
+        url: "/hsc/admin/getPersonalInfo",
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
           if(data.status==='success'){
-            _this.data=data.result;
+            _this.admin=data.result;
           }
         },
         error: function(error) {
@@ -204,7 +195,6 @@
         },1500)
       },
       logout(){
-              console.log('hello')
         $.ajax({
           type: 'get',
           url: "/hsc/common/loginOut",
@@ -256,7 +246,7 @@
             $.ajax({
               type: 'post',
               data: changePassword,
-              url: "/hsc/teacher/changePassword",
+              url: "/hsc/admin/changePassword",
               dataType: 'json',
               timeout: 60000,
               success: function(data) {
@@ -278,18 +268,18 @@
 
         },
         changeData(){       
-          for(var item in this.data){
-            if(!this.data[item]){
+          for(var item in this.admin){
+            if(!this.admin[item]){
               this.showMessage('信息未填写完成',true);
               return false;
             }
           }
           var _this=this;
-          var data={data:this.data};
+          var data={data:this.admin};
           $.ajax({
             type: 'post',
             data:data,
-            url: "/hsc/teacher/updatePersonalInfo",
+            url: "/hsc/admin/updatePersonalInfo",
             dataType: 'json',
             timeout: 60000,
             success: function(data) {
@@ -307,7 +297,7 @@
           });
         }
     },
-    props:['index','student','arrage','statistics']
+    props:['homework','student','teacher','statistics']
   }
 </script>
 
