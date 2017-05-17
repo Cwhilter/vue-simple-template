@@ -31,25 +31,11 @@
   export default {
     data(){
       return {
-         homework_list:[]
+         
       }
     },
     mounted(){
-      var _this=this;
-      $.ajax({
-        type: 'get',
-        url: "/hsc/teacher/getHomeworkList",
-        dataType: 'json',
-        timeout: 60000,
-        success: function(data) {
-          if(data.status==='success'){
-            _this.homework_list=data.result;            
-          }
-        },
-        error: function(error) {
-           
-        }
-      });
+      
     },
     created(){
       

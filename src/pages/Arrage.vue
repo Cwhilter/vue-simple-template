@@ -27,6 +27,7 @@
   import '../assets/lib/layui.all.js'
   import '../assets/lib/layui/css/layui.css'
   import Dialog from '../components/Dialog.vue'
+  import Cookies from '../assets/lib/cookies.js'
   export default {
     data(){
       return {
@@ -134,8 +135,8 @@
         }
         else{
           var _this=this;
-          this.arrage.teacher_name=sessionStorage.name;
-          this.arrage.teacher_number=sessionStorage.number;         
+          this.arrage.teacher_name=Cookies.get('name');
+          this.arrage.teacher_number=Cookies.get('number');         
           this.arrage.course_start=new Date().Format("yyyy-MM-dd");
           var data={arrage:this.arrage};
           $.ajax({

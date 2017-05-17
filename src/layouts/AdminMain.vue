@@ -7,14 +7,15 @@
   </div>
   <ul class="nav-list">
     <li><v-link href="/teacher" :class="{'active':index}">作业信息</v-link></li>
-    <li><v-link href="/teacher/arrage" :class="{'active':arrage}">布置作业</v-link></li>
+    <li><v-link href="/teacher/arrage" :class="{'active':arrage}">教师信息</v-link></li>
     <li><v-link href="/teacher/studentInfo" :class="{'active':student}">学生信息</v-link></li>
-    <li><v-link href="/teacher/statistics" :class="{'active':statistics}">成绩统计</v-link></li>
+    <li><v-link href="/teacher/statistics" :class="{'active':statistics}">班级信息</v-link></li>
   </ul>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 
     <ul class="hide-option">
       <li data-toggle="modal" data-target="#myModal">修改个人资料</li>
+      <li data-toggle="modal" data-target="#addAdmin">添加管理员</li>
       <li data-toggle="modal" data-target="#changePassword">修改密码</li>
       <li data-toggle="modal" data-target="#confirm">注销登录</li>
     </ul> 

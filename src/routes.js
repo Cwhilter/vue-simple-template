@@ -7,5 +7,6 @@ export default {
   '/teacher/arrage':'Arrage',
   '/student':'Student',
   '/student/commit':'Commit',
-  '/student/homeworkList':'HomeworkList'
+  '/student/homeworkList':'HomeworkList',
+  '/admin':'Admin'
 }

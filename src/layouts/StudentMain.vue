@@ -121,6 +121,8 @@
 <script>
   import VLink from '../components/VLink.vue'
   import Dialog from '../components/Dialog.vue'
+  import Cookies from '../assets/lib/cookies.js'
+
 
   export default {
     data(){
@@ -153,8 +155,8 @@
 
     },
     mounted(){
-      this.user.name=sessionStorage.name;
-      this.user.type=sessionStorage.type;
+      this.user.name=Cookies.get('name');
+      this.user.type=Cookies.get('type');
       switch(this.user.type){
         case 'teacher_info':
           this.user.role='教师';
@@ -203,10 +205,10 @@
           timeout: 60000,
           success: function(data) {
             if(data.status === 'success') {
-              sessionStorage.number=null;
-              sessionStorage.type=null;
-              sessionStorage.name=null;
-              window.location.reload();
+              Cookies.clear('number');
+              Cookies.clear('type');
+              Cookies.clear('name');
+              window.location.href='/';
             } else {
               
             }

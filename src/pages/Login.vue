@@ -29,15 +29,61 @@
     <div class="login-btn" @click="loginAction">
       登录
     </div>
+    <div class="logon-btn" data-toggle="modal" data-target="#myModal">
+      <i class="glyphicon glyphicon-question-sign"></i>注册
+    </div>
   </div>
   <div id="myAlert" v-show="alert" class="alert " :class="{'alert-warning':warning,'alert-success':!warning}">
     <a href="javascript:void(0)" class="close" @click="clearMessage">&times;</a>
     <strong>{{message}}</strong>
   </div>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">注册--学生</h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                <span class="input-group-addon">学号</span>
+                <input v-model="data.number" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">姓名</span>
+                <input v-model="data.name" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">性别</span>
+                <input v-model="data.sex" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">专业</span>
+                <input v-model="data.major" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">年龄</span>
+                <input v-model="data.age" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">电话</span>
+                <input v-model="data.phone_number" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" @click="changeData">注册</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
+</div>
+
 </template>
 
 <script>
+  import Cookies from '../assets/lib/cookies.js'
   export default {
     data() {
       return {
@@ -51,6 +97,14 @@
           {text:'教师',value:'teacher_info'},          
           {text:'管理员',value:'admin_info'}
         ],
+        data:{
+          number:'',
+          name:'',
+          sex:'',
+          major:'',
+          age:'',
+          phone_number:''
+        },
         alert:false,
         warning:false,
         message:''
@@ -62,9 +116,12 @@
         this.warning=warning;
         this.alert=true;
       },
+      clearMessage(){
+        this.alert=false;
+        this.message='';
+      }, 
       //登陆操作
       loginAction(){
-        console.log(this.user.type);
         if(!this.user.type){
           this.showMessage('身份不能为空',true);
         }
@@ -85,12 +142,9 @@
               timeout: 60000,
               success: function (data) {
                 if(data.status==='success'){
-                  sessionStorage.number=user.number;
-                  sessionStorage.type=user.type;
-                  sessionStorage.name=data.name;
-                  var date = new Date();
-                  date.setTime(date.getTime() + 300000);
-                  document.cookie=encodeURIComponent('number')+'='+encodeURIComponent(user.number);
+                  Cookies.set('number',user.number);
+                  Cookies.set('type',user.type);
+                  Cookies.set('name',data.name);
                   _this.showMessage('登录成功',false);
                   var href='';
                   if(_this.user.type==='teacher_info'){
@@ -118,13 +172,38 @@
         
         
       },    
-      clearMessage(){
-        this.alert=false;
-        this.message='';
-      }
+      changeData(){
+          for(var item in this.data){
+            if(!this.data[item]){
+              this.showMessage('信息未填写完成',true);
+              return false;
+            }
+          }
+          var _this=this;
+          var data={data:this.data};
+          $.ajax({
+            type: 'post',
+            data:data,
+            url: "/hsc/student/logon",
+            dataType: 'json',
+            timeout: 60000,
+            success: function(data) {
+              if(data.status==='success'){
+                $('#myModal').modal('hide');
+                _this.dialogShow('修改成功');
+                setTimeout(function(){
+                  window.location.reload();
+                },2000);
+              }
+            },
+            error: function(error) {
+               
+            }
+          });
+        }
     },
-    created(){
-      var type=sessionStorage.type;
+    mounted(){
+      var type=Cookies.get('type');
       if(type==='teacher_info'){
         window.location.href = '/teacher';
       }
@@ -194,7 +273,7 @@
   background-color: #29bdb9;
   font-size: 18px;
   width: 360px;
-  margin: 40px auto;
+  margin: 40px auto 0px;
   height: 50px;
   text-align: center;
   line-height: 50px;
@@ -202,5 +281,25 @@
 }
 .login-btn:hover{
   background-color: #3aceca;
+}
+.logon-btn{
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: right;
+  margin-right: 70px;
+  font-size: 16px;
+  color: #2ABCB9;
+}
+.logon-btn:hover{
+  color: #337ab7;
+}
+.logon-btn i{
+  vertical-align: middle;
+  margin-bottom: 3px;
+  display: inline-block;
+  margin-right: 5px;
+
 }
 </style>
