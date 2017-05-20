@@ -33,7 +33,7 @@
             <td>{{item.major}}</td>
             <td>{{item.class}}</td>
             <td>{{item.phone_number}}</td>
-            <td><i class="glyphicon glyphicon-edit" @click="showModal" :id="index" title="编辑"></i><i class="glyphicon glyphicon-trash" title="删除" :id="index" @click="deleteCourse"></i></td>
+            <td><i class="glyphicon glyphicon-edit" @click="showModal" :id="index" title="编辑"></i><i class="glyphicon glyphicon-trash" title="删除" :id="index" @click="showConfim"></i></td>
           </tr>
         </tbody>
       </table>
@@ -79,16 +79,34 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<dialog-components :message="msg" v-if="dialog_show"></dialog-components>
+<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">确定删除？</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary"  @click="deleteInfo">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 	</div>
   </main-layout>
 </template>
 
 <script>
   import MainLayout from '../layouts/AdminMain.vue'
+  import Dialog from '../components/Dialog.vue'
 
   export default {
     data(){
       return{
+        msg:'',
+        dialog_show:false,
         class_info:[],
         student_info:[],
         currentClass:'',
@@ -100,12 +118,22 @@
           age:'',
           phone_number:''
         },
+        deleteNumber:'',
+        deleteClass:'',
         alert:false,
         warning:false,
         message:''
       } 
     },
     methods:{
+      dialogShow(msg){
+        this.dialog_show=true;
+        this.msg=msg;
+        var _this=this;
+        setTimeout(function(){
+          _this.dialog_show=false;
+        },1500)
+      },
       showModal(event){
       	$('#editInfo').modal('toggle');
       	var target=event.target;
@@ -117,7 +145,7 @@
         this.warning=warning;
         this.alert=true;
       },
-	  clearMessage(){
+	    clearMessage(){
         this.alert=false;
         this.message='';
       }, 
@@ -156,7 +184,7 @@
           $.ajax({
             type: 'post',
             data:data,
-            url: "/hsc/student/updatePersonalInfo",
+            url: "/hsc/admin/updateStudentInfo",
             dataType: 'json',
             timeout: 60000,
             success: function(data) {
@@ -172,10 +200,41 @@
                
             }
           });
+        },
+        showConfim(event){
+          $('#confirm').modal('toggle');
+          var target=event.target;
+          var index=$(target).attr("id");
+          this.deleteNumber=this.student_info[index].number;
+          this.deleteClass=this.student_info[index].class;
+        },
+        deleteInfo(){
+          var _this=this;
+          var data={number:this.deleteNumber,class:this.deleteClass};
+          $.ajax({
+            type: 'post',
+            data:data,
+            url: "/hsc/admin/deleteStudentInfo",
+            dataType: 'json',
+            timeout: 60000,
+            success: function(data) {
+              if(data.status==='success'){
+                $('#confirm').modal('hide');
+                _this.dialogShow('删除成功');
+                /*setTimeout(function(){
+                  window.location.reload();
+                },2000);*/
+              }
+            },
+            error: function(error) {
+               
+            }
+          });
         }
     },
     components: {
-      MainLayout
+      MainLayout,
+      'dialog-components':Dialog
     },
     mounted(){
       var _this=this;

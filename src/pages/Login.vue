@@ -63,12 +63,22 @@
                 <input v-model="data.major" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
+                <span class="input-group-addon">班级</span>
+                <select class="form-control" v-model="data.class">
+                  <option v-for="list in class_info" :value="list" @click="clearMessage">{{list}}</option>
+                </select>
+              </div>
+              <div class="input-group">
                 <span class="input-group-addon">年龄</span>
                 <input v-model="data.age" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
                 <span class="input-group-addon">电话</span>
                 <input v-model="data.phone_number" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">密码</span>
+                <input v-model="data.password" @keyup="clearMessage" type="password" class="form-control">
               </div>
             </div>
             <div class="modal-footer">
@@ -91,6 +101,7 @@
       return {
         msg:'',
         dialog_show:false,
+        class_info:[],
         user:{
           type:'',
           number:'',
@@ -107,6 +118,8 @@
           sex:'',
           major:'',
           age:'',
+          class:'',
+          password:'',
           phone_number:''
         },
         alert:false,
@@ -187,11 +200,12 @@
       changeData(){
           for(var item in this.data){
             if(!this.data[item]){
-              this.showMessage('信息未填写完成',true);
+              this.dialogShow('信息未填写完成');
               return false;
             }
           }
           var _this=this;
+
           var data={data:this.data};
           $.ajax({
             type: 'post',
@@ -225,6 +239,21 @@
       else if (type==='admin_info'){
         window.location.href = '/admin';  
       }
+      var _this=this;
+      $.ajax({
+        type: 'get',
+        url: "/hsc/admin/getClassInfo",
+        dataType: 'json',
+        timeout: 60000,
+        success: function(data) {
+          if(data.status==='success'){
+            _this.class_info=data.result;
+          }
+        },
+        error: function(error) {
+           
+        }
+      });
     },
     components: {
       'dialog-components':Dialog

@@ -10,5 +10,6 @@ export default {
   '/student/homeworkList':'HomeworkList',
   '/admin':'Admin',
   '/admin/teacherInfo':'TeacherInfo',
-  '/admin/homeworkInfo':'HomeworkInfo'
+  '/admin/homeworkInfo':'HomeworkInfo',
+  '/admin/classInfo':'ClassInfo'
 }

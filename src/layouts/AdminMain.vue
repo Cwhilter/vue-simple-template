@@ -10,7 +10,7 @@
     <li><v-link href="/admin/homeworkInfo" :class="{'active':homework}">作业信息</v-link></li>
     <li><v-link href="/admin/teacherInfo" :class="{'active':teacher}">教师信息</v-link></li>
     
-    <li><v-link href="/admin/classInfo" :class="{'active':statistics}">班级信息</v-link></li>
+    <li><v-link href="/admin/classInfo" :class="{'active':klass}">班级信息</v-link></li>
   </ul>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 
@@ -18,10 +18,10 @@
       <li data-toggle="modal" data-target="#myModal">修改个人资料</li>
       <li data-toggle="modal" data-target="#addAdmin">添加管理员</li>
       <li data-toggle="modal" data-target="#changePassword">修改密码</li>
-      <li data-toggle="modal" data-target="#confirm">注销登录</li>
+      <li data-toggle="modal" data-target="#logout">注销登录</li>
     </ul> 
   </div>
-  <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -297,7 +297,7 @@
           });
         }
     },
-    props:['homework','student','teacher','statistics']
+    props:['homework','student','teacher','klass']
   }
 </script>
 

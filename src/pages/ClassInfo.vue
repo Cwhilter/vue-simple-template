@@ -1,29 +1,25 @@
 <template>
-  <main-layout teacher='true'>
+  <main-layout klass='true'>
   <div class="t-index">
 	<div class="container">
 	  <table class="table">
         <thead>
           <tr>
             <th>编号</th>
-            <th>姓名</th>
-            <th>性别</th>
-            <th>年龄</th>
-            <th>职位</th>   
-            <th>所带班级</th>         
-            <th>联系方式</th>
+            <th>名称</th>
+            <th>班级人数</th>
+            <th>负责人</th>
+            <th>负责人电话</th>   
             <th>操作</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) in teacher_info" :class="{'active':index%2}">
-            <td>{{item.number}}</td>
+          <tr v-for="(item,index) in class_info" :class="{'active':index%2}">
+            <td>{{item.id}}</td>
             <td>{{item.name}}</td>
-            <td>{{item.sex}}</td>
-            <td>{{item.age}}</td>
-            <td>{{item.position}}</td>
-            <td>{{item.classes}}</td>
-            <td>{{item.phone_number}}</td>
+            <td>{{item.size}}</td>
+            <td>{{item.leader}}</td>
+            <td>{{item.leader_phone_number}}</td>
             <td><i class="glyphicon glyphicon-edit" @click="showModal" :id="index" title="编辑"></i><i class="glyphicon glyphicon-trash" title="删除" :id="index"  @click="showConfim"></i></td>
           </tr>
         </tbody>
@@ -39,28 +35,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">编辑教师信息</h4>
+                <h4 class="modal-title" id="myModalLabel">编辑班级信息</h4>
             </div>
             <div class="modal-body">
               <div class="input-group">
-                <span class="input-group-addon">姓名</span>
+                <span class="input-group-addon">名称</span>
                 <input v-model="data.name" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">性别</span>
-                <input v-model="data.sex" @keyup="clearMessage" type="text" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon">专业</span>
-                <input v-model="data.position" @keyup="clearMessage" type="text" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon">年龄</span>
-                <input v-model="data.age" @keyup="clearMessage" type="text" class="form-control">
+                <span class="input-group-addon">负责人</span>
+                <input v-model="data.leader" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
                 <span class="input-group-addon">电话</span>
-                <input v-model="data.phone_number" @keyup="clearMessage" type="text" class="form-control">
+                <input v-model="data.leader_phone_number" @keyup="clearMessage" type="text" class="form-control">
               </div>
             </div>
             <div class="modal-footer">
@@ -98,16 +86,16 @@
       return{
         msg:'',
         dialog_show:false,
-        teacher_info:[],
+        class_info:[],
         data:{
-          number:'',
+          id:'',
           name:'',
-          sex:'',
-          position:'',
-          age:'',
-          phone_number:''
+          size:'',
+          leader:'',
+          leader_phone_number:''
         },
         deleteNumber:'',
+        deleteName:'',
         alert:false,
         warning:false,
         message:''
@@ -122,21 +110,18 @@
           _this.dialog_show=false;
         },1500)
       },
-      deleteCourse(event){
-
-      },
       showModal(event){
       	$('#editInfo').modal('toggle');
       	var target=event.target;
       	var index=$(target).attr("id");
-      	this.data=this.teacher_info[index];
+      	this.data=this.class_info[index];
       },
       showMessage(msg,warning){
         this.message=msg;
         this.warning=warning;
         this.alert=true;
       },
-	    clearMessage(){
+      clearMessage(){
         this.alert=false;
         this.message='';
       }, 
@@ -152,7 +137,7 @@
           $.ajax({
             type: 'post',
             data:data,
-            url: "/hsc/admin/updateTeacherInfo",
+            url: "/hsc/admin/updateClassInfo",
             dataType: 'json',
             timeout: 60000,
             success: function(data) {
@@ -173,16 +158,16 @@
           $('#confirm').modal('toggle');
           var target=event.target;
           var index=$(target).attr("id");
-          this.deleteNumber=this.teacher_info[index].number;
-          
+          this.deleteNumber=this.class_info[index].id;
+          this.deleteName=this.class_info[index].name;
         },
         deleteInfo(){
           var _this=this;
-          var data={number:this.deleteNumber};
+          var data={number:this.deleteNumber,name:this.deleteName};
           $.ajax({
             type: 'post',
             data:data,
-            url: "/hsc/admin/deleteTeacherInfo",
+            url: "/hsc/admin/deleteClassInfo",
             dataType: 'json',
             timeout: 60000,
             success: function(data) {
@@ -208,12 +193,12 @@
       var _this=this;
       $.ajax({
         type: 'get',
-        url: "/hsc/admin/getTeacherInfo",
+        url: "/hsc/admin/getClassesInfo",
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
           if(data.status==='success'){
-            _this.teacher_info=data.result;
+            _this.class_info=data.result;
           }
         },
         error: function(error) {
