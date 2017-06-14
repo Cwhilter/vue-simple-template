@@ -2,6 +2,7 @@
   <main-layout klass='true'>
   <div class="t-index">
 	<div class="container">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addClass">添加班级</button>
 	  <table class="table">
         <thead>
           <tr>
@@ -74,6 +75,39 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<div class="modal fade" id="addClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+    <div class="modal-dialog">
+    <div id="changeData" v-show="alert" class="alert " :class="{'alert-warning':warning,'alert-success':!warning}">
+          <a href="javascript:void(0)" class="close" @click="clearMessage">&times;</a>
+          <strong>{{message}}</strong>
+        </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">添加班级信息</h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                <span class="input-group-addon">名称</span>
+                <input v-model="klass.name" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">负责人</span>
+                <input v-model="klass.leader" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">电话</span>
+                <input v-model="klass.leader_phone_number" @keyup="clearMessage" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" @click="addClass">添加</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
   </main-layout>
 </template>
 
@@ -91,6 +125,11 @@
           id:'',
           name:'',
           size:'',
+          leader:'',
+          leader_phone_number:''
+        },
+        klass:{
+          name:'',
           leader:'',
           leader_phone_number:''
         },
@@ -181,6 +220,30 @@
             },
             error: function(error) {
                
+            }
+          });
+        },
+        addClass(){
+          var _this=this;
+          var data={klass:this.klass};
+          $.ajax({
+            type: 'post',
+            data:data,
+            url: "/hsc/admin/addClassInfo",
+            dataType: 'json',
+            timeout: 60000,
+            success: function(data) {
+              if(data.status==='success'){
+                $('#confirm').modal('hide');
+                _this.dialogShow('添加成功');
+                setTimeout(function(){
+                  window.location.reload();
+                },2000);
+              }
+            },
+            error: function(error) {
+                $('#confirm').modal('hide');
+                _this.dialogShow('添加失败，请稍后重试');
             }
           });
         }

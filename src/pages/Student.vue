@@ -11,7 +11,7 @@
   		<p>查看作业</p>
   		<p class="detail">查看已提交作业</p>
   	</a> 
-  	<a class="chunk">
+  	<a class="chunk" href="/student/count">
   		<span class="glyphicon glyphicon-picture"></span>
   		<p>成绩统计</p>
   		<p class="detail">个人成绩统计图</p>

@@ -4,7 +4,7 @@ Cookies.set = function(G, _, E) {
 			: "/", A = (H > 4) ? D[4] : null, Y = (H > 5) ? D[5] : false, B = E;
 	if (!B) {
 		B = new Date();
-		B.setTime(B.getTime() + 20* 60 * 1000)
+		B.setTime(B.getTime() + 60* 60 * 1000)
 	}
 	document.cookie = G + "=" + escape(_)
 			+ ((F == null) ? "" : ("; expires=" + B.toGMTString()))

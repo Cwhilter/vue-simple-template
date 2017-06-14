@@ -87,7 +87,7 @@
             success: function(data) {
               if(data.status==='success'){
                 $('#confirm').modal('hide');
-                _this.dialogShow('修改成功');
+                _this.dialogShow('删除成功');
                 setTimeout(function(){
                   window.location.reload();
                 },2000);

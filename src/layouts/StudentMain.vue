@@ -88,11 +88,11 @@
             </div>
             <div class="modal-body">
               <div class="input-group">
-                <span class="input-group-addon">&nbsp原&nbsp密&nbsp码&nbsp</span>
+                <span class="input-group-addon">原密码</span>
                 <input v-model="password.origin" @keyup="clearMessage" type="password" class="form-control" placeholder="请输入原密码">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">&nbsp新&nbsp密&nbsp码&nbsp</span>
+                <span class="input-group-addon">新密码</span>
                 <input v-model="password.newPassword" @keyup="clearMessage" type="password" class="form-control" placeholder="长度6到20位">
               </div>
               <div class="input-group">

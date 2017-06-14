@@ -2,6 +2,7 @@
   <main-layout teacher='true'>
   <div class="t-index">
 	<div class="container">
+  <button class="btn btn-primary"><a href="/admin/addTeacherInfo">添加教师</a></button>
 	  <table class="table">
         <thead>
           <tr>
@@ -9,7 +10,7 @@
             <th>姓名</th>
             <th>性别</th>
             <th>年龄</th>
-            <th>职位</th>   
+            <th>职称</th>   
             <th>所带班级</th>         
             <th>联系方式</th>
             <th>操作</th>
@@ -51,7 +52,7 @@
                 <input v-model="data.sex" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">专业</span>
+                <span class="input-group-addon">职称</span>
                 <input v-model="data.position" @keyup="clearMessage" type="text" class="form-control">
               </div>
               <div class="input-group">
@@ -257,8 +258,8 @@
   font-size: 13px;
 }
 .btn{
-  margin-left: 40px;
-  width: 75px;
+  margin-left: 20px;
+  width: 100px;
 }
 .input-groups{
   padding: 0!important;
@@ -269,5 +270,11 @@
 .modal-dialog{
     top: 25px!important;
     width: 500px!important;
+}
+a{
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  color: #fff;
 }
 </style>
