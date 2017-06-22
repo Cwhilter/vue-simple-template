@@ -24,8 +24,8 @@
 
 <script>
   import MainLayout from '../layouts/Main.vue' 
-  import '../assets/lib/layui.all.js'
-  import '../assets/lib/layui/css/layui.css'
+  //import '../assets/lib/layui.all.js'
+  //import '../assets/lib/layui/css/layui.css'
   import Dialog from '../components/Dialog.vue'
   import Cookies from '../assets/lib/cookies.js'
   export default {

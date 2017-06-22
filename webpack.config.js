@@ -7,12 +7,17 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')//动态插入js和css文�
 var debug = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    main:'./src/index.js',
+    vue:['vue'],
+    jquery:'jquery',
+    
+  },
   output: {
     path: path.resolve('./dist'),
     publicPath: debug?'/dist/':'/',
     chunkFilename: debug ? '[id].js' : 'js/[id].js',
-    filename: debug?'index.js':'js/index.js'
+    filename: debug?'[name].js':'js/[name].[chunkhash].js',
   },
   module: {
     rules: [
@@ -113,7 +118,7 @@ if(process.env.NODE_ENV==='development'){
 if (process.env.NODE_ENV === 'production') {
   //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
   //source-map有多种模式，具体可参考http://www.sourcemap.com/
-  //module.exports.devtool = '#source-map'
+  module.exports.devtool = '#source-map'
   module.exports.module.rules.push({
         test: /.css$/,
         use: ExtractTextPlugin.extract({
@@ -142,6 +147,10 @@ if (process.env.NODE_ENV === 'production') {
         warnings: false
       }
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+                name: ['vue','jquery','manifest'] // 指定公共 bundle 的名字。
+
+            }),
     new ExtractTextPlugin("css/[name].css"),   
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -160,5 +169,8 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
+  module.exports.externals={
+    
+  }
 }
 
