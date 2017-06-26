@@ -1,32 +1,35 @@
 var http = require('http');
-var koa = require('koa');
-var serve = require('koa-static');
+var express=require('express');
 var path=require('path')
-var app = new koa();
+var app = express();
 var debug = process.env.NODE_ENV !== 'production';
 // 开发环境和生产环境对应不同的目录
-var viewDir = debug ? 'src' : 'dist';
-var webpackDevMiddleware = require('koa-webpack-dev-middleware');
 var webpack = require('webpack');
 var webpackConf = require('./webpack.config');
-
-app.use(webpackDevMiddleware(webpack(webpackConf), {
-    contentBase: webpackConf.output.path,
-    publicPath: webpackConf.output.publicPath,
-    hot: true,
+var history=require('connect-history-api-fallback');
+var compiler=webpack(webpackConf);
+// dev编译，产物存放在内存中
+app.use(require('webpack-dev-middleware')(compiler, {
+    publicPath: '/',
     stats: {
-    	colors: true,
-    	chunks: false
-  	}
-}));
-// 处理静态资源和入口文件
-app.use(serve(path.resolve(__dirname, viewDir), {
-    maxage: 0
-}));
+        colors: true,
+        chunks: false
+    },
+    hot:true
+})); 
+var hotMiddleware = require('webpack-hot-middleware')(compiler)
 
-app = http.createServer(app.callback());
-
-app.listen(8000, function (err) {
+// force page reload when html-webpack-plugin template changes
+compiler.plugin('compilation', function (compilation) {
+    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+        hotMiddleware.publish({ action: 'reload' })
+        cb()
+    })
+});
+app.use(hotMiddleware);
+app.use(express.static('static'));
+app.use(history())
+app.listen(8000, (err) => {
   if (err) {
     console.log(err)
     return

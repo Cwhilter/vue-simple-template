@@ -9,15 +9,15 @@ var debug = process.env.NODE_ENV !== 'production';
 module.exports = {
   entry: {
     main:'./src/index.js',
-    vue:['vue'],
+    vue:'vue',
     jquery:'jquery',
     
   },
   output: {
     path: path.resolve('./dist'),
-    publicPath: debug?'/dist/':'/',
-    chunkFilename: debug ? '[id].js' : 'js/[id].js',
-    filename: debug?'[name].js':'js/[name].[chunkhash].js',
+    publicPath: '/',
+    chunkFilename: 'js/[id].js',
+    filename: debug?'js/[name].js':'js/[name].[chunkhash].js',
   },
   module: {
     rules: [
@@ -35,14 +35,14 @@ module.exports = {
         }
       },
       
-      /*{
-        test: /.css$/,
-        use:[{
-            loader: "style-loader" // creates style nodes from JS strings 
-        }, {
-            loader: "css-loader" // translates CSS into CommonJS 
-        }]
-      },*/
+      // {
+      //   test: /.css$/,
+      //   use:[{
+      //       loader: "style-loader" // creates style nodes from JS strings 
+      //   }, {
+      //       loader: "css-loader" // translates CSS into CommonJS 
+      //   }]
+      // },
       {
         test: /\.less$/,
         use: [{
@@ -95,17 +95,18 @@ module.exports = {
       })
   ],
   //选择定义开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true,
-    port:8081
-  },
+  // devServer: {
+  //   historyApiFallback: true,
+  //   noInfo: true,
+  //   port:8081
+  // },
   performance: {  
     hints: false
   },
   //devtool: '#eval-source-map'
 }
 if(process.env.NODE_ENV==='development'){
+  module.exports.devtool = '#eval-source-map'  
   module.exports.module.rules.push({
         test: /.css$/,
         use:[{
@@ -114,11 +115,18 @@ if(process.env.NODE_ENV==='development'){
             loader: "css-loader" // translates CSS into CommonJS 
         }]
       });
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: './src/index.html',
+            inject: true
+        })
+  ])
 }
 if (process.env.NODE_ENV === 'production') {
   //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
   //source-map有多种模式，具体可参考http://www.sourcemap.com/
-  module.exports.devtool = '#source-map'
+  // module.exports.devtool = '#source-map'  
   module.exports.module.rules.push({
         test: /.css$/,
         use: ExtractTextPlugin.extract({
@@ -169,8 +177,5 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
-  module.exports.externals={
-    
-  }
 }
 
