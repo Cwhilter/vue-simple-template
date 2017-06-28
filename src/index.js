@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import routes from './routes'
-import './assets/lib/common.css'
-import './assets/lib/bootstrap/bootstrap.css'
-import './assets/lib/bootstrap/bootstrap.min.js'
-import Cookies from './assets/lib/cookies.js'
+import 'assets/lib/common.css'
+import 'assets/lib/bootstrap/bootstrap.css'
+import 'assets/lib/bootstrap/bootstrap.min.js'
+import Cookies from 'assets/lib/cookies.js'
 const app = new Vue({
   el: '#app',
   data: {
@@ -12,7 +12,7 @@ const app = new Vue({
   created(){ 
     var number=Cookies.get('number');
     if(!number||number=='null'){
-       this.currentRoute='/';      
+      // this.currentRoute='/';      
     }  
     else{
       var type=window.location.pathname.split('/').splice(1,1).pop()+'_info';

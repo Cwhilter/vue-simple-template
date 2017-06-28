@@ -8,9 +8,9 @@ var debug = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: {
-    main:'./src/index.js',
-    vue:'vue',
-    jquery:'jquery',
+    main:['./src/index.js','webpack-hot-middleware/client?reload=true'],
+    vue:['vue','webpack-hot-middleware/client?reload=true'],
+    jquery:['jquery','webpack-hot-middleware/client?reload=true']
     
   },
   output: {
@@ -80,9 +80,10 @@ module.exports = {
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components'),
+      'src': path.resolve(__dirname, './src'),
+      'assets': path.resolve(__dirname, './src/assets'),
+      'components': path.resolve(__dirname, './src/components'),
+      'layouts': path.resolve(__dirname,'./src/layouts'),
       'vux-components': 'vux/src/components'
     }
   },
@@ -95,11 +96,11 @@ module.exports = {
       })
   ],
   //选择定义开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
-  // devServer: {
-  //   historyApiFallback: true,
-  //   noInfo: true,
-  //   port:8081
-  // },
+  devServer: {
+    historyApiFallback: true,
+    noInfo: true,
+    port:8081
+  },
   performance: {  
     hints: false
   },
@@ -107,6 +108,7 @@ module.exports = {
 }
 if(process.env.NODE_ENV==='development'){
   module.exports.devtool = '#eval-source-map'  
+  console.log(module.exports.entry)
   module.exports.module.rules.push({
         test: /.css$/,
         use:[{
@@ -120,13 +122,16 @@ if(process.env.NODE_ENV==='development'){
             filename: 'index.html',
             template: './src/index.html',
             inject: true
-        })
+        }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
   ])
 }
 if (process.env.NODE_ENV === 'production') {
   //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
   //source-map有多种模式，具体可参考http://www.sourcemap.com/
   // module.exports.devtool = '#source-map'  
+  
   module.exports.module.rules.push({
         test: /.css$/,
         use: ExtractTextPlugin.extract({

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import MainLayout from '../layouts/StudentMain.vue'
+  import MainLayout from 'layouts/StudentMain.vue'
 
   export default {
     data(){

@@ -32,9 +32,9 @@
 </template>
 
 <script>
-  import MainLayout from '../layouts/AdminMain.vue' 
-  import Dialog from '../components/Dialog.vue'
-  import Cookies from '../assets/lib/cookies.js'
+  import MainLayout from 'layouts/AdminMain.vue' 
+  import Dialog from 'components/Dialog.vue'
+  import Cookies from 'assets/lib/cookies.js'
   export default {
     data(){
       return {

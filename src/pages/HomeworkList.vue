@@ -27,10 +27,10 @@
 </template>
 
 <script>
-  import MainLayout from '../layouts/StudentMain.vue'
-  //import '../assets/lib/layui.all.js'
-//  import '../assets/lib/layui/css/layui.css'
-  import Dialog from '../components/Dialog.vue'
+  import MainLayout from 'layouts/StudentMain.vue'
+  //import 'assets/lib/layui.all.js'
+//  import 'assets/lib/layui/css/layui.css'
+  import Dialog from 'components/Dialog.vue'
 
   export default {
     data(){

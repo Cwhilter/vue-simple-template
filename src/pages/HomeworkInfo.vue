@@ -51,8 +51,8 @@
 </template>
 
 <script>
-  import MainLayout from '../layouts/AdminMain.vue'
-  import Dialog from '../components/Dialog.vue'
+  import MainLayout from 'layouts/AdminMain.vue'
+  import Dialog from 'components/Dialog.vue'
 
   export default {
     data(){

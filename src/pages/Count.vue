@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  import MainLayout from '../layouts/StudentMain.vue'
-  import echarts from '../assets/lib/echarts.min.js';
+  import MainLayout from 'layouts/StudentMain.vue'
+  import echarts from 'assets/lib/echarts.min.js';
 
   export default {
     data(){

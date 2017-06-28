@@ -3,11 +3,24 @@ var express=require('express');
 var path=require('path')
 var app = express();
 var debug = process.env.NODE_ENV !== 'production';
-// 开发环境和生产环境对应不同的目录
+var opn = require('opn');
 var webpack = require('webpack');
 var webpackConf = require('./webpack.config');
 var history=require('connect-history-api-fallback');
 var compiler=webpack(webpackConf);
+
+
+// var hotMiddleware = require('webpack-hot-middleware')(compiler)
+//     // force page reload when html-webpack-plugin template changes
+// compiler.plugin('compilation', function(compilation) {
+//     compilation.plugin('html-webpack-plugin-after-emit', function(data, cb) {
+//         hotMiddleware.publish({
+//             action: 'reload'
+//         })
+//         cb()
+//     })
+// })
+app.use(history());
 // dev编译，产物存放在内存中
 app.use(require('webpack-dev-middleware')(compiler, {
     publicPath: '/',
@@ -15,24 +28,21 @@ app.use(require('webpack-dev-middleware')(compiler, {
         colors: true,
         chunks: false
     },
-    hot:true
+    hot:true,
+    historyApiFallback: true
 })); 
-var hotMiddleware = require('webpack-hot-middleware')(compiler)
 
-// force page reload when html-webpack-plugin template changes
-compiler.plugin('compilation', function (compilation) {
-    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-        hotMiddleware.publish({ action: 'reload' })
-        cb()
-    })
-});
-app.use(hotMiddleware);
+// app.use(hotMiddleware);
+app.use(require("webpack-hot-middleware")(compiler));
 app.use(express.static('static'));
-app.use(history())
+app.get('/student',function(req,res){
+    res.send('hello.html')
+})
 app.listen(8000, (err) => {
   if (err) {
     console.log(err)
     return
   }
   console.log('Listening at http://localhost:8000' + '\n')
+  opn('http://localhost:8000');
 })

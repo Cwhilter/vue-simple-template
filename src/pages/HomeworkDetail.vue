@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import MainLayout from '../layouts/Main.vue'
+  import MainLayout from 'layouts/Main.vue'
 
   export default {
     data(){

@@ -94,8 +94,8 @@
 </template>
 
 <script>
-  import Cookies from '../assets/lib/cookies.js'
-  import Dialog from '../components/Dialog.vue'
+  import Cookies from 'assets/lib/cookies.js'
+  import Dialog from 'components/Dialog.vue'
   export default {
     data() {
       return {
