@@ -58,7 +58,14 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      
+      {
+        test: /\.(svg|woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        query:{
+          limit:10000,
+          name:path.posix.join('fonts/', '[name].[ext]')
+        }
+      },
       {
          // test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
           test: /\.(png|jpe?g|gif)(\?.*)?$/,
@@ -134,14 +141,6 @@ if (process.env.NODE_ENV === 'production') {
           use: "css-loader",
           publicPath: "/dist/"
         })
-      },
-      {
-        test: /\.(svg|woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        query:{
-          limit:10000,
-          name:path.posix.join('fonts/', '[name].[ext]')
-        }
       });
   module.exports.module.rules[0].options.loaders={css: ExtractTextPlugin.extract({
               use: 'css-loader',
