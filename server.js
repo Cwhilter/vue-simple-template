@@ -9,17 +9,6 @@ var webpackConf = require('./webpack.config');
 var history=require('connect-history-api-fallback');
 var compiler=webpack(webpackConf);
 
-
-// var hotMiddleware = require('webpack-hot-middleware')(compiler)
-//     // force page reload when html-webpack-plugin template changes
-// compiler.plugin('compilation', function(compilation) {
-//     compilation.plugin('html-webpack-plugin-after-emit', function(data, cb) {
-//         hotMiddleware.publish({
-//             action: 'reload'
-//         })
-//         cb()
-//     })
-// })
 app.use(history());
 // dev编译，产物存放在内存中
 app.use(require('webpack-dev-middleware')(compiler, {

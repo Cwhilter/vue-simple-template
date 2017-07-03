@@ -17,7 +17,7 @@ module.exports = {
     path: path.resolve('./dist'),
     publicPath: '/',
     chunkFilename: 'js/[id].js',
-    filename: debug?'js/[name].js':'js/[name].[chunkhash].js',
+    filename: debug?'js/[name].js':'js/[name].[hash:7].js',
   },
   module: {
     rules: [
@@ -58,15 +58,9 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
+      
       {
-        test: /\.((ttf|eot|woff|svg)(\?t=[0-9]\.[0-9]\.[0-9]))|(ttf|eot|woff|svg)\??.*$/,
-        loader: 'url-loader',
-        query:{
-          name:'fonts/[name].[ext]'
-        }
-      },
-      {
-          //test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
+         // test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
           test: /\.(png|jpe?g|gif)(\?.*)?$/,
           loader: 'url-loader',
           query: {
@@ -95,7 +89,7 @@ module.exports = {
         "window.jQuery" : "jquery"
       })
   ],
-  //选择定义开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
+  //选择定义webpack-dev-server开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
   devServer: {
     historyApiFallback: true,
     noInfo: true,
@@ -108,7 +102,6 @@ module.exports = {
 }
 if(process.env.NODE_ENV==='development'){
   module.exports.devtool = '#eval-source-map'  
-  console.log(module.exports.entry)
   module.exports.module.rules.push({
         test: /.css$/,
         use:[{
@@ -127,6 +120,8 @@ if(process.env.NODE_ENV==='development'){
     new webpack.NoEmitOnErrorsPlugin()
   ])
 }
+
+
 if (process.env.NODE_ENV === 'production') {
   //开发模式下可选择生成source-map来调试程序--记得将uglifyJsPlugin中的sourceMap设置为true
   //source-map有多种模式，具体可参考http://www.sourcemap.com/
@@ -139,6 +134,14 @@ if (process.env.NODE_ENV === 'production') {
           use: "css-loader",
           publicPath: "/dist/"
         })
+      },
+      {
+        test: /\.(svg|woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        query:{
+          limit:10000,
+          name:path.posix.join('fonts/', '[name].[ext]')
+        }
       });
   module.exports.module.rules[0].options.loaders={css: ExtractTextPlugin.extract({
               use: 'css-loader',
@@ -162,7 +165,6 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.optimize.CommonsChunkPlugin({
                 name: ['vue','jquery','manifest'] // 指定公共 bundle 的名字。
-
             }),
     new ExtractTextPlugin("css/[name].css"),   
     new HtmlWebpackPlugin({
