@@ -94,6 +94,9 @@ module.exports = {
         $ : "jquery",
         jQuery : "jquery",
         "window.jQuery" : "jquery"
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+          name: ['vue','jquery','manifest'] // 指定公共 bundle 的名字。
       })
   ],
   //选择定义webpack-dev-server开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
@@ -162,9 +165,7 @@ if (process.env.NODE_ENV === 'production') {
         warnings: false
       }
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-                name: ['vue','jquery','manifest'] // 指定公共 bundle 的名字。
-            }),
+    
     new ExtractTextPlugin("css/[name].css"),   
     new HtmlWebpackPlugin({
       filename: 'index.html',
