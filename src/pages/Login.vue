@@ -239,6 +239,7 @@
       else if (type==='admin_info'){
         window.location.href = '/admin';  
       }
+      
       var _this=this;
       $.ajax({
         type: 'get',
@@ -246,6 +247,7 @@
         dataType: 'json',
         timeout: 60000,
         success: function(data) {
+          console.log(data);
           if(data.status==='success'){
             _this.class_info=data.result;
           }

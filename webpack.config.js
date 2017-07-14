@@ -17,7 +17,7 @@ module.exports = {
     path: path.resolve('./dist'),
     publicPath: '/',
     chunkFilename: 'js/[id].js',
-    filename: debug?'js/[name].js':'js/[name].[hash:7].js',
+    filename: debug?'js/[name].js':'js/[name].[chunkhash:7].js',
   },
   module: {
     rules: [
@@ -34,15 +34,6 @@ module.exports = {
           // other vue-loader options go here
         }
       },
-      
-      // {
-      //   test: /.css$/,
-      //   use:[{
-      //       loader: "style-loader" // creates style nodes from JS strings 
-      //   }, {
-      //       loader: "css-loader" // translates CSS into CommonJS 
-      //   }]
-      // },
       {
         test: /\.less$/,
         use: [{
@@ -96,8 +87,12 @@ module.exports = {
         "window.jQuery" : "jquery"
       }),
       new webpack.optimize.CommonsChunkPlugin({
-          name: ['vue','jquery','manifest'] // 指定公共 bundle 的名字。
-      })
+          name: ['vue','jquery'] // 指定公共 bundle 的名字。
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: "manifest",
+        minChunks: Infinity
+      }),
   ],
   //选择定义webpack-dev-server开发模式下的各种环境属性，具体参考https://webpack.js.org/configuration/dev-server/
   devServer: {
@@ -145,11 +140,12 @@ if (process.env.NODE_ENV === 'production') {
           publicPath: "/dist/"
         })
       });
-  module.exports.module.rules[0].options.loaders={css: ExtractTextPlugin.extract({
-              use: 'css-loader',
-              fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
-            })
-            }
+  module.exports.module.rules[0].options.loaders={
+        css: ExtractTextPlugin.extract({
+          use: 'css-loader',
+          fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
+      })
+  }
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     

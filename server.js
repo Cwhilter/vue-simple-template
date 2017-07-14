@@ -6,7 +6,9 @@ var debug = process.env.NODE_ENV !== 'production';
 var opn = require('opn');
 var webpack = require('webpack');
 var webpackConf = require('./webpack.config');
-var history=require('connect-history-api-fallback');
+var history=require('connect-history-api-fallback');//单页面情况下路由重定向
+// 使用 Mock
+var Mock = require('mockjs')
 var compiler=webpack(webpackConf);
 
 app.use(history());
@@ -21,12 +23,42 @@ app.use(require('webpack-dev-middleware')(compiler, {
     historyApiFallback: true
 })); 
 
-// app.use(hotMiddleware);
+
+var data=Mock.mock({
+    // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
+    'result|1-10': [{
+        // 属性 id 是一个自增数，起始值为 1，每次增 1
+        'id|+1': 1
+    }]
+})
+
 app.use(require("webpack-hot-middleware")(compiler));
 app.use(express.static('static'));
-app.get('/student',function(req,res){
-    res.send('hello.html')
-})
+
+
+
+var proxy = require('http-proxy-middleware');
+console.log(proxy)
+// proxy middleware options 
+var options = {
+        target: 'http://localhost:8001', // target host 
+        changeOrigin: true,               // needed for virtual hosted sites 
+        ws: true,                         // proxy websockets 
+        pathRewrite: {
+            '^/api/old-path' : '/api/new-path',     // rewrite path 
+            '^/api/remove/path' : '/path'           // remove base path 
+        },
+        // router: {
+        //     // when request.headers.host == 'dev.localhost:3000', 
+        //     // override target 'http://www.example.org' to 'http://localhost:8000' 
+        //     'localhost:8000' : 'http://localhost:8001'
+        // }
+    };
+ 
+// create the proxy (without context) 
+//var exampleProxy = proxy(options);
+app.use('/hsc',proxy(options));
+// mount `exampleProxy` in web server 
 app.listen(8000, (err) => {
   if (err) {
     console.log(err)

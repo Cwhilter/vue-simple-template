@@ -12,7 +12,7 @@ const app = new Vue({
   created(){ 
     var number=Cookies.get('number');
     if(!number||number=='null'){
-       this.currentRoute='/';      
+      // this.currentRoute='/';      
     }  
     else{
       var type=window.location.pathname.split('/').splice(1,1).pop()+'_info';
