@@ -1,5 +1,5 @@
 <template>
-  <main-layout arrage='true'>
+  <div>
     <div class="container">
 			<div style="display: none;"><input type="text" name="t-id"></div>
 			<div class="t-form-rows"><span>作业名称</span><input type="text" name="t-theme" placeholder="不能为空" v-model="arrage.course_name"></div>
@@ -18,12 +18,11 @@
         <!-- <button class="layui-btn layui-btn-normal" id="btn-cancel">取消</button> --></div>
 		</div>
     <dialog-components :message="message" v-if="dialog_show"></dialog-components>
-  </main-layout>
+  </div>
   
 </template>
 
 <script>
-  import MainLayout from 'layouts/Main.vue' 
   //import 'assets/lib/layui.all.js'
   //import 'assets/lib/layui/css/layui.css'
   import Dialog from 'components/Dialog.vue'
@@ -47,7 +46,6 @@
       }
     },
     components: {
-      'main-layout':MainLayout,
       'dialog-components':Dialog
       
     },

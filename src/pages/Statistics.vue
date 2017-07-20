@@ -1,5 +1,5 @@
 <template>
-  <main-layout statistics='true'>
+  <div>
 	<div class="container">
 	<div>
 		<div class="input-group">
@@ -14,11 +14,10 @@
       
 	</div>
   	<div id="chart"></div>
-  </main-layout>
+  </div>
 </template>
 
 <script>
-  import MainLayout from 'layouts/Main.vue'
   import echarts from 'assets/lib/echarts.min.js';
 
   export default {
@@ -91,7 +90,7 @@
       }
     },
     components: {
-      MainLayout
+      
     },
     mounted(){					
       var _this=this;

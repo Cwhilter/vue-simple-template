@@ -76,7 +76,7 @@ module.exports = {
       'assets': path.resolve(__dirname, './src/assets'),
       'components': path.resolve(__dirname, './src/components'),
       'layouts': path.resolve(__dirname,'./src/layouts'),
-      'vux-components': 'vux/src/components'
+      //'vux-components': 'vux/src/components'
     }
   },
   //各种插件，参考官网https://webpack.js.org/

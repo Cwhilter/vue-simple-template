@@ -1,5 +1,5 @@
 <template>
-  <main-layout index='true'>
+  
   <div class="container">
     <div class="homework-list" v-for="item in homework_list" v-if="homework_list.length>0">
       <div class="file-img"><img src="../assets/images/file.png"></div>
@@ -17,14 +17,13 @@
         <span><a :href="'/teacher/homeworkDetail?id='+item.course_code">查看详情</a></span>
       </div>
     </div>
-    
-    </div> 
     <div class="no-data" v-if="homework_list.length<=0">未找到相关数据</div>
-  </main-layout>
+    </div> 
+    
+  
 </template>
 
 <script>
-  import MainLayout from 'layouts/Main.vue'
 
   export default {
     data(){
@@ -53,7 +52,7 @@
       
     },
     components: {
-      MainLayout
+      
     }
   }
 </script>
