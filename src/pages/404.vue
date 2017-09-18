@@ -6,7 +6,6 @@
 
   export default {
     components: {
-      MainLayout
     }
   }
 </script>

@@ -1,6 +1,6 @@
  <template>
+ <div class="t-index">
   <div id="body">
-
     <nav class="navbar navbar-default" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -139,6 +139,7 @@
       </div>
     </div>
   </div>
+ </div>
 </template>
 
 <script>
@@ -327,8 +328,8 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-@border_color: #e2e2e2;
+<style scoped>
+
 #body {
   height: 100%;
 }
@@ -344,6 +345,10 @@ export default {
 
 
 .container {
+  min-height: 95%;
+  min-height:-moz-calc(100% - 116px); 
+  min-height:-webkit-calc(100% - 116px); 
+  min-height: calc(100% - 116px);
   line-height: 50px;
 }
 
@@ -371,7 +376,9 @@ export default {
   color: #999;
   display: inline;
   margin-left: 50px;
-  .active {
+  
+}
+.active {
     color: #2ABCB9!important;
     border-bottom: 3px solid #2ABCB9;
   }
@@ -383,16 +390,15 @@ export default {
     margin-right: 20px;
     text-align: center;
     vertical-align: top;
-    a {
+    
+  }
+  a {
       display: inline-block;
       height: 50px;
     }
-  }
   li a:hover {
     color: #4c4c47;
   }
-}
-
 .username {
   letter-spacing: 1px;
   cursor: pointer;
@@ -408,7 +414,9 @@ export default {
   top: 50px;
   position: absolute;
   z-index: 10;
-  li {
+  
+}
+li {
     cursor: pointer;
     width: 100px;
     text-align: center;
@@ -417,12 +425,12 @@ export default {
   li:hover {
     color: #2ABCB9;
   }
-}
-
 .status {
   position: relative;
   float: right;
-  .drop {
+  
+}
+.drop {
     float: right;
     display: block;
     height: 0;
@@ -434,8 +442,6 @@ export default {
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
   }
-}
-
 .status:hover .hide-option {
   display: block;
 }
@@ -475,13 +481,14 @@ export default {
 #footer {
   background-color: #f0f0f0;
   height: 50px;
-  border: 1px solid @border_color;
-  .footer-body {
+  border: 1px solid #e2e2e2;
+  
+}
+.footer-body {
     width: 100%;
     text-align: center;
     color: #2ABCB9;
     font-size: 15px;
     font-weight: 500;
   }
-}
 </style>

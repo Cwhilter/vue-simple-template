@@ -17,6 +17,8 @@
 
 4、此项目的webpack配置主要针对于单页面应用开发
 
+5、项目新添加了本地server定制功能，利用express框架搭建了本地服务器，用于开发环境下的调试以及API代理、mock数据等等功能
+
 ### 项目结构说明
 
 项目整体分为以下几个目录
@@ -29,11 +31,12 @@
 
 >server.js--本地服务器
 
->webpack.config.js--webpack配置文件
+>build--webpack配置文件
 
 #### 目录结构
 ``` 
 vue-simple-template
+|---build             webpack相关配置文件
 |---dist
   |---css             编译输出的css
   |---js              编辑输出的js
@@ -56,7 +59,6 @@ vue-simple-template
   |---index.js        js入口文件
   |---routes.js       本地路由文件
 |---server.js         本地服务端入口文件
-|---webpack.config.js webpack配置文件
      
 ```
 #### 目录说明

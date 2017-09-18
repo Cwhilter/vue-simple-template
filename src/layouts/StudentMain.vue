@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
   <div class="navbar-header">
-    <span class="glyphicon glyphicon-bookmark"></span><v-link class="navbar-brand" href="/student" title="返回首页">作业提交与批改系统</v-link><span>{{page}}</span>
+    <span class="glyphicon glyphicon-bookmark"></span><router-link class="navbar-brand" to="/student" title="返回首页">作业提交与批改系统</router-link><span>{{page}}</span>
   </div>
   <div class="status">   
     <span class="username">{{user.role}}:{{user.name}}<span class="drop"></span></span> 

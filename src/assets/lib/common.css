@@ -54,11 +54,14 @@ td{
 button {
     border: none;
 }
+#app{
+    height: 100%;
+}
 .t-index{
-  min-height: 95%;
-  min-height:-moz-calc(100% - 116px); 
-  min-height:-webkit-calc(100% - 116px); 
-  min-height: calc(100% - 116px);
+   height: 95%;
+  height:-moz-calc(100% - 58px); 
+  height:-webkit-calc(100% - 58px); 
+  height: calc(100% - 58px);
 }
 .clear{
   clear: both;

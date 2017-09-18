@@ -5,7 +5,7 @@ var app = express();
 var debug = process.env.NODE_ENV !== 'production';
 var opn = require('opn');
 var webpack = require('webpack');
-var webpackConf = require('./webpack.config');
+var webpackConf = require('./build/webpack.dev.conf');
 var history=require('connect-history-api-fallback');//单页面情况下路由重定向
 // 使用 Mock
 var Mock = require('mockjs')

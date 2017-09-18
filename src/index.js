@@ -4,13 +4,11 @@ import routes from './routes'
 import 'assets/lib/common.css'
 import 'assets/lib/bootstrap/bootstrap.css'
 import 'assets/lib/bootstrap/bootstrap.min.js'
-import Cookies from 'assets/lib/cookies.js'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes:routes,
   mode: 'history'
 })
-console.log(routes)
 
 new Vue({
   router
