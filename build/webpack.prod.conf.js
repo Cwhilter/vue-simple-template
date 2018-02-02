@@ -1,11 +1,11 @@
-var path =require('path');
+var path = require('path');
 var baseConf = require('./webpack.base.conf');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')//动态插入js和css文件
 var CleanPlugin = require('clean-webpack-plugin')//webpack插件，用于清除目录文件 
-
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = merge(baseConf, {
   module: {
     rules: [{
@@ -18,19 +18,23 @@ module.exports = merge(baseConf, {
     },
     {
       test: /\.vue$/,
-      loader: 'vue-loader',
-      options: {
-        loaders: {
-          css: ExtractTextPlugin.extract({
-            use: 'css-loader',
-            fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
-          })
-        }/*,
-              loaders: {
-                less: 'less-loader'
-              },*/
-        // other vue-loader options go here
-      }
+      use: [
+        {
+          loader: 'vue-loader',
+          options: {
+            loaders: {
+              css: ExtractTextPlugin.extract({
+                use: 'css-loader',
+                fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
+              })
+            }/*,
+                  loaders: {
+                    less: 'less-loader'
+                  },*/
+            // other vue-loader options go here
+          }
+        }
+      ]
     },]
   },
   //devtool: '#cheap-module-eval-source-map',
@@ -40,20 +44,32 @@ module.exports = merge(baseConf, {
         NODE_ENV: '"production"'
       }
     }),
-    new CleanPlugin(['./dist/**/*'],{
+    new CleanPlugin(['./dist/**/*'], {
       root: path.resolve(__dirname, '../'),
       verbose: true,
       dry: false,
       exclude: ['favicon.ico']
     }), //清空生成目录
     //new CleanPlugin(['./dist/**/*']), //清空生成目录
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: false,
-      compress: {
-        warnings: false
-      }
+    // new webpack.optimize.UglifyJsPlugin({
+    //   sourceMap: false,
+    //   compress: {
+    //     warnings: false
+    //   }
+    // }),
+    new CopyWebpackPlugin([
+      { from: 'static', to: 'js' }
+    ]),
+    new webpack.DllReferencePlugin({       // 敲黑板，这里是重点
+      context: __dirname,                  // 同那个dll配置的路径保持一致
+      manifest: require('../manifest.json') // manifest的缓存信息
     }),
-
+    new webpack.optimize.UglifyJsPlugin({
+        sourceMap: false,
+        compress: {
+          warnings: false
+        }
+      }),
     new ExtractTextPlugin("css/[name].css"),
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -70,6 +86,7 @@ module.exports = merge(baseConf, {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
+    }),
+    
   ]
 })

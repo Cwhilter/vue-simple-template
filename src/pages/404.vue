@@ -3,17 +3,15 @@
 </template>
 
 <script>
-
-  export default {
-    components: {
-    }
-  }
+export default {
+  components: {}
+};
 </script>
 <style scoped>
-.notFound{
-	height: 100%;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-image: url(../assets/images/404.jpg);
+.notFound {
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(../assets/images/404.jpg);
 }
 </style>

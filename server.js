@@ -33,7 +33,7 @@ var data=Mock.mock({
 })
 
 app.use(require("webpack-hot-middleware")(compiler));
-app.use(express.static('static'));
+app.use(express.static('dist'));
 
 
 
