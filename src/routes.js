@@ -1,13 +1,13 @@
 import App from './App.vue'
 //const studentMain = r => require.ensure([], () => r(require('./layouts/studentMain.vue')), 'studentMain')
 const noFound = r => require.ensure([], () => r(require('./pages/404.vue')), '404')
-const example = r => require.ensure([], () => r(require('./pages/about.vue')), 'example')
+const example = r => require.ensure([], () => r(require('./pages/example.vue')), 'example')
 
 
 export default [
     {
         path: '',
-        component: noFound
+        component: example
     },
     {
         path: '/example',

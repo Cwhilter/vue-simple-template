@@ -58,6 +58,10 @@ var options = {
 // create the proxy (without context) 
 //var exampleProxy = proxy(options);
 app.use('/hsc',proxy(options));
+app.get('/user', function(req, res) {
+    var username = {"username" : 'wp'};
+    res.send(JSON.stringify(username));
+  });
 // mount `exampleProxy` in web server 
 app.listen(8000, (err) => {
   if (err) {

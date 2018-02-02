@@ -37,7 +37,7 @@ module.exports = merge(baseConf, {
         },
         ]
     },
-    devtool: 'cheap-eval-source-map',
+    devtool: 'cheap-module-eval-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
