@@ -69,14 +69,20 @@
     </div>
 </template>
 <script>
-import { Layout, Menu, Content, Breadcrumb, BreadcrumbItem, Sider, MenuItem , Submenu, Icon } from 'iview'
+//import { Layout, Menu, Content, Breadcrumb, BreadcrumbItem, Sider, MenuItem , Submenu, Icon } from 'iview'
 
 export default {
-    components: { Layout, Menu, Content, Breadcrumb, BreadcrumbItem, Sider, MenuItem, Submenu ,Icon},
+    //components: { Layout, Menu, Content, Breadcrumb, BreadcrumbItem, Sider, MenuItem, Submenu ,Icon},
+    data(){
+        return {
+            username: ''
+        }
+    },
     created() {
-        this.$http.get("/user").then(function(response) {
+        this.$http.get("/user").then((response) => {
             let username = response.data;
-            console.log(username);
+            this.username = response.data.username;
+            console.log(this.username)
         }).catch(function(error) {
             console.log(error);
         });

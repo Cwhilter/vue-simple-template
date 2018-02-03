@@ -18,11 +18,11 @@ module.exports = {
             path: './manifest.json',    // 必填项，存放manifest的路径
             name: '[name]_[chunkhash]'                     // 必填项，manifest的name
         }),
-        new webpack.optimize.UglifyJsPlugin({
+        new UglifyJsPlugin({
             sourceMap: false,
-            compress: {
+            uglifyOptions: {
                 warnings: false
-            }
+            }            
         }),
     ]
 };

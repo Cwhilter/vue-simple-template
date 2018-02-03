@@ -7,9 +7,6 @@
   "ignore":[           
     "vue.common.js",
     "vue-router.js"
-  ],
-  "plugins": [["import", {
-    "libraryName": "iview",
-    "libraryDirectory": "src/components"
-  }]]
+  ]
+ 
 }
