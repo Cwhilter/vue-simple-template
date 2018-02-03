@@ -5,7 +5,7 @@ var debug = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     entry: {
-        index: './src/index.js'
+        index: './src/main.js'
     },
     output: {
         path: path.resolve('./dist'),

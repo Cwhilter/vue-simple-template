@@ -75,7 +75,8 @@ export default {
     //components: { Layout, Menu, Content, Breadcrumb, BreadcrumbItem, Sider, MenuItem, Submenu ,Icon},
     data(){
         return {
-            username: ''
+            username: '',
+            password: ''
         }
     },
     created() {
@@ -86,6 +87,7 @@ export default {
         }).catch(function(error) {
             console.log(error);
         });
+        this.password = this.$http_result('/user','post',{})
     }
 }
 </script>
