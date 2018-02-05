@@ -80,14 +80,11 @@ export default {
         }
     },
     created() {
-        this.$http.get("/user").then((response) => {
-            let username = response.data;
-            this.username = response.data.username;
-            console.log(this.username)
-        }).catch(function(error) {
-            console.log(error);
-        });
-        this.password = this.$http_result('/user','post',{})
+        this.$http({url:'/user'},(res) => {
+            this.username = res.username;
+        },(error) => {
+            console.log(error)
+        })
     }
 }
 </script>
