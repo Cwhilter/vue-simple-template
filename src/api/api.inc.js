@@ -15,7 +15,7 @@ axios.defaults.onDownloadProgress = (progressEvent) => {
 export default (config,cb,errorCb) => {
     axios(config).then((response) => {
         if(response.data.success){
-            cb(response.data);
+            cb(response.data.result);
         }else{
             errorCb(response);
         }

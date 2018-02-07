@@ -59,10 +59,27 @@ var options = {
 //var exampleProxy = proxy(options);
 //请求代理
 // app.use('/hsc',proxy(options));
-// app.get('/user', function(req, res) {
-//     var username = {"username" : 'wp'};
-//     res.send(JSON.stringify(username));
-//   });
+
+
+//模拟测试数据
+app.post('/menu', function(req, res) {
+    var menu_list = [{
+        icon: 'icon-dropdown',
+        menu_name: 'vm_manage'
+    }];
+    var res_data = {
+        success: true,
+        result: menu_list
+    };
+    res.send(JSON.stringify(res_data));
+  });
+app.get('/user', (req,res) => {
+    var user = {
+        username: 'wp',
+        password: '123456'
+    }
+    res.send(JSON.stringify(user));
+})
 // mount `exampleProxy` in web server 
 app.listen(8000, (err) => {
   if (err) {

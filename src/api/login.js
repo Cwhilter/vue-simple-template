@@ -9,3 +9,13 @@ export const get_user_info = (cb,errorCb) => {
         }
     },cb,errorCb);
 }
+
+export const get_menu_list = (user_id,cb,errorCb) => {
+    return axios({
+        url:'/menu',
+        method: 'post',
+        params:{
+            user_id
+        }
+    },cb,errorCb);
+}

@@ -1,1 +1,5 @@
-export const GET_MENU_LIST = 'GET_MENU_LIST'
+export const SET_MENU = 'SET_MENU'
+export const CLEAR_MENU = 'CLEAR_MENU'
+export const SET_LANG = 'SET_LANG'
+
+

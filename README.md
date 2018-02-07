@@ -9,7 +9,7 @@
 
 ### 项目说明
 
-1、此项目是根据vue官方样本[webpack-simple](https://github.com/vuejs-templates/webpack-simple)改进而来，加入了一些实际项目中需要用到的功能（稍后会介绍）
+1、此项目是参考了官方样本[webpack-simple](https://github.com/vuejs-templates/webpack-simple)，加入了一些实际项目中需要用到的功能（稍后会介绍）
 
 2、完整的技术栈是`webpack2.x` + `vue2.x` + `vue-router` + `ES6`模块，未来也可根据需要添加，比如less、vuex、服务端渲染以及gulp任务管理、本地server定制等等功能
 
@@ -44,17 +44,20 @@ vue-simple-template
   |---fonts           编译输出的字体图标
   index.html          编译后的入口文件
 |---src
+  |---api              全局API配置
   |---assets          第三方资源及图片等
     |---images	      图片
     |---lib           第三方资源
   |---components      组件
    	|---button.vue    button组件
+  |---langs           语言包
   |---layouts         布局文件
-	|---main.vue   
+	  |---main.vue   
   |---pages           页面文件
-	|---404.vue
-	|---about.vue  
-	|---home.vue
+	  |---404.vue
+	  |---about.vue  
+	  |---home.vue
+  |---store           全局状态管理
   |---index.html      打包入口文件
   |---index.js        js入口文件
   |---routes.js       本地路由文件
@@ -75,12 +78,33 @@ vue-simple-template
 
 另一种方式是自定义本地开发环境，我采用**express**进行搭建，利用**webpack-dev-middleware**中间件进行编译，同时加入opn模块(用于自动打开浏览器)和**webpack-hot-middleware**中间件实现热更新(HRM)，本地开发环境好处在于后期可根据项目需求进行个性化定制，比如API代理，处理动态请求，处理静态资源等等。
 
-3、因为项目是单页面应用，前端路由并不是真正意义上的路由，在除首页外的其他路由页面，浏览器刷新之后会因为后台无法找到对应路径而显示404的情况，因此需要配置服务器，将所有路由跳转回单页面的入口文件，不同服务器有不同配置方式，我搭建的本地node服务器，采用的是**connect-history-api-fallback**模块，其他服务器的配置方式等我收集完再来补全。。
+3、因为项目是单页面应用，前端路由并不是真正意义上的路由，在除首页外的其他路由页面，浏览器刷新之后会因为后台无法找到对应路径而显示404的情况，因此需要配置服务器，将所有路由跳转回单页面的入口文件，不同服务器有不同配置方式，我搭建的本地node服务器，采用的是**connect-history-api-fallback**模块，其他服务器的配置方式:
 
+   Apache:
+   ```
+    <IfModule mod_rewrite.c>
+      RewriteEngine On
+      RewriteBase /
+      RewriteRule ^index\.html$ - [L]
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteCond %{REQUEST_FILENAME} !-d
+      RewriteRule . /index.html [L]
+    </IfModule>
+   ```
+   在根目录创建.htaccess文件后粘贴上面的代码
+
+   Nginx
+   ```
+    location / {
+      try_files $uri $uri/ /index.html;
+    }
+   ```
 4、增加webpack.dll配置文件，可将第三方库单独打包，作为dll文件引入，这样在打包时可以避免多次打包，加快打包速率，同时也便于将dll文件进行cdn部署或本地永久缓存，优化加载速度
-### 本地node环境搭建说明
 
-1、除上述本地环境说明外，新增加了代理服务和本地数据mock服务，前后端分离开发时，有可能面临前端开发完成，而API尚未完善的情况，这时为了避免出现互相等待的情况，可以利用数据mock服务对API进行模拟，前端利用本地mock数据进行测试和后续开发，无需等待后台。同时前后端联调时，也可以在本地开发环境下利用proxy服务进行联调，而不必进行编译部署，提高开发效率
+5、语言包采用vue-i18n，实现多语言切换（详情查看langs文件夹）
+
+6、ajax库采用axios，独立封装了一下
+
 
 
 

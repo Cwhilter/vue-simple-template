@@ -6,11 +6,11 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 // console.log(path.resolve(__dirname))
 module.exports = {
     entry: {
-        vendor: ['axios','vue/dist/vue.esm.js', 'vuex', 'vue-router']
+        vendor: ['iview','babel-polyfill','axios','vue/dist/vue.esm.js', 'vuex', 'vue-router']
     },
     output: {
         publicPath: '/',
-        path: path.resolve('./static'),
+        path: path.resolve('./static/js'),
         filename: '[name].dll.js',
         library: '[name]_[chunkhash]'               // 必填项，将此dll包暴露到window上，给app.js调用
     },

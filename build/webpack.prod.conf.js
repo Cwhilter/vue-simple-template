@@ -14,7 +14,7 @@ module.exports = merge(baseConf, {
             use: ExtractTextPlugin.extract({
                 fallback: "style-loader",
                 use: "css-loader",
-                publicPath: "/dist/"
+                publicPath: "/"
             })
         },
         {
@@ -59,7 +59,10 @@ module.exports = merge(baseConf, {
         //   }
         // }),
         new CopyWebpackPlugin([
-            { from: 'static', to: 'js' }
+            { from: 'static/.htaccess', to: '' },            
+            { from: 'static/js', to: 'js' },
+            { from: 'static/css', to: 'css'},
+            { from: 'static/fonts', to: 'fonts'}
         ]),
         new webpack.DllReferencePlugin({       // 敲黑板，这里是重点
             context: __dirname,                  // 同那个dll配置的路径保持一致

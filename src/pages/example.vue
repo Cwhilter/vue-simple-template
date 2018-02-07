@@ -61,7 +61,18 @@
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-                        Content
+                        <span>
+                            {{ $t("message.hello") }}
+                        </span>
+                        <div style="cursor:pointer;width:100px;height:40px;background:#fff;border:1px solid #ccc;line-height:40px;text-align:center;" @click="changeLang">
+                            点我切换语言
+                        </div>
+                        <div><img src="../assets/images/404.jpg" alt=""></div>
+                        <span v-for="(value,key) in menu_list" :key="key">
+                        {{value}}
+                        {{ $t("message.hello") }}
+                        
+                        </span>
                     </Content>
                 </Layout>
             </Layout>
@@ -69,22 +80,41 @@
     </div>
 </template>
 <script>
-//import { Layout, Menu, Content, Breadcrumb, BreadcrumbItem, Sider, MenuItem , Submenu, Icon } from 'iview'
+
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    //components: { Layout, Menu, Content, Breadcrumb, BreadcrumbItem, Sider, MenuItem, Submenu ,Icon},
+    computed: mapGetters({
+        menu_list: 'menu_list'
+    }),
     data(){
         return {
+            lang: 'zh-CN',
             username: '',
             password: ''
         }
     },
     created() {
+        console.log(this.$i18n.locale)
+        this.$store.dispatch('get_menu_list',2).then(()=>{
+            console.log(this.$store.state.menu_list)
+        }); 
         this.$http({url:'/user'},(res) => {
             this.username = res.username;
         },(error) => {
             console.log(error)
         })
+    },
+    methods:{
+        changeLang(){
+            if(this.lang == 'en-US'){
+                this.$i18n.locale = 'zh-CN';    
+                this.lang = 'zh-CN';                        
+            }else{
+                this.$i18n.locale = 'en-US';     
+                this.lang = 'en-US';                   
+            }
+        }
     }
 }
 </script>
