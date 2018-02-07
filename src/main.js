@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 import routes from './routes'
 import store from './store/index'
 import axios from './api/api.inc'
-import 'assets/lib/common.css'
+import 'assets/lib/common.less'
 import iView from 'iview'
 import i18n from './langs/index';
 
