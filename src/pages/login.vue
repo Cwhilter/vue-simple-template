@@ -1,6 +1,6 @@
 <template>
-    <div id="header">
-        <router-view></router-view>
+    <div>
+        login
     </div>
 </template>
 
@@ -11,7 +11,6 @@ export default {
     }
 };
 </script>
-<style lang="less" scoped>
-
+<style scoped>
 
 </style>

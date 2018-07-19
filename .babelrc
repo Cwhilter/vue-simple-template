@@ -1,12 +1,10 @@
 {
   "presets": [
-    ["latest", {
-      "es2015": { "modules": false }
-    }]
+    "env"
   ],
+  "plugins": ["transform-runtime", "syntax-dynamic-import"],
   "ignore":[           
     "vue.common.js",
     "vue-router.js"
   ]
- 
 }

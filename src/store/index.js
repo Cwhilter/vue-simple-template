@@ -9,7 +9,9 @@ Vue.use(Vuex)
 
 const state = {
 		lang: 'zh-CN',
-    menu_list : []
+		leftMenuList: [],
+    pageOpenedList: [
+    ]
 }
 if (module.hot) {
 	// 使 action 和 mutation 成为可热重载模块

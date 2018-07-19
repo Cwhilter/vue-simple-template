@@ -81,11 +81,11 @@ app.get('/user', (req,res) => {
     res.send(JSON.stringify(user));
 })
 // mount `exampleProxy` in web server 
-app.listen(8000, (err) => {
+app.listen(8001, (err) => {
   if (err) {
     console.log(err)
     return
   }
-  console.log('Listening at http://localhost:8000' + '\n')
-  opn('http://localhost:8000');
+  console.log('Listening at http://localhost:8001' + '\n')
+  opn('http://localhost:8001');
 })

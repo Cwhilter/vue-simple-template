@@ -1,23 +1,27 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-Vue.use(Vuex)
+import * as api from 'api/login'
 
 const state = {
-    user_info : {}
+    cluster_list :[],
 }
+const getters = {
 
-export default new Vuex.Store({
-	state:{
+}
+const actions = {
+    //通过API获取菜单列表
+    get_menu_list({commit},user_id){
+        api.get_menu_list(user_id,(res) => {
+            console.log(res.data)
+        },(error) => {
 
-    },
-	getters:{
+        })
+    }   
+}
+const mutations = {
 
-    },
-	actions:{
-
-    },
-	mutations:{
-        
-    }
-})
+}
+export default {
+    state,
+    getters,
+    actions,
+    mutations
+}

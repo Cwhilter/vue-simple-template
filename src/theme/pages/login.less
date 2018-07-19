@@ -1,0 +1,130 @@
+#login {
+    height: 100%;
+    background-image: url(/images/404.jpg);
+    .login-wrap {
+        min-height: 100%;
+        position: relative;
+    }
+    .login-wrap .login-header {
+        float: right;
+        margin-top: 27px;
+    }
+    .login-header .contact-us {
+        margin-right: 28px;
+    }
+    .login-header .about-us {
+        margin-right: 31px;
+    }
+    .login-wrap .login-content {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .login-content .logo {
+        vertical-align: middle;
+        margin-right: 32px;
+    }
+    .login-content .title {
+        width: 660px;
+        font-size: 44px;
+        font-weight: 400; 
+        color: #fff;
+        letter-spacing: 11px;
+    }
+    .login-sheet {
+        height: 200px;
+        margin-top: 86px;
+    }
+    .sheet-ct{
+        margin-bottom: 20px;
+    }
+    .login-sheet .info {
+        display: inline-block;
+        width: 50px;
+        font-size: 16px;
+        color: #d3d6d9;
+        position: relative;
+        right: -58px;
+        
+    }
+    .login-footer {
+        width: 100%;
+        height: 36px;
+        font-size: 14px; 
+        text-align: center;
+        color: #d3d6d9;
+        position: absolute;
+        bottom: 10px;
+    }
+    input {
+        width: 324px;
+        height: 46px;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 18px;
+        background: #313b43;
+        opacity: 0.9;
+        color: #fff;
+        outline: none;
+    }
+    input[type="text"]:focus {
+        background: #4b555d;
+    }
+    input[type="password"]:focus {
+        background: #4b555d;
+    }
+    input[type="button"] {
+        cursor: pointer;
+        background: #6DA8F8;
+    }
+    .login-input {
+        height: 200px;
+    }
+    .login-sheet .two {
+        animation-delay: 0.5s;
+    }  
+    .login-sheet .three {
+        animation-delay: 1s;
+    }
+    @keyframes sliping {
+        from {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+        to {
+            -webkit-transform: translate3d(-68px, 0, 0);
+            transform: translate3d(-68px, 0, 0);
+        }
+    }
+    @keyframes fadeInUp {
+        from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        }
+    
+        to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        }
+    }
+    .sliping {
+        animation: sliping;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }   
+    .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+    .fadeInUp {
+        -webkit-animation-name: fadeInUp;
+        animation-name: fadeInUp;
+    }
+}

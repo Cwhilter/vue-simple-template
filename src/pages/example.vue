@@ -68,11 +68,7 @@
                             点我切换语言
                         </div>
                         <div><img src="../assets/images/404.jpg" alt=""></div>
-                        <span v-for="(value,key) in menu_list" :key="key">
-                        {{value}}
                         {{ $t("message.hello") }}
-                        
-                        </span>
                     </Content>
                 </Layout>
             </Layout>
@@ -84,9 +80,6 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    computed: mapGetters({
-        menu_list: 'menu_list'
-    }),
     data(){
         return {
             lang: 'zh-CN',
@@ -96,9 +89,9 @@ export default {
     },
     created() {
         console.log(this.$i18n.locale)
-        this.$store.dispatch('get_menu_list',2).then(()=>{
-            console.log(this.$store.state.menu_list)
-        }); 
+        // this.$store.dispatch('get_menu_list',2).then(()=>{
+        //     console.log(this.$store.state.menu_list)
+        // }); 
         this.$http({url:'/user'},(res) => {
             this.username = res.username;
         },(error) => {
