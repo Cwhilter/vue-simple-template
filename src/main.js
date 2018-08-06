@@ -35,6 +35,7 @@ new Vue({
     },
     watch: {
         '$route'(to, from){
+            return;
             window.document.title = this.$t('nav.navName.' + to.name.split('/').shift())
             if(to.name == '404' || to.name == '403' || to.name == 'login') return;            
             let nav_name = to.name.split('/').shift();
@@ -73,12 +74,9 @@ new Vue({
                     // docEl.style.fontSize = clientWidth * (100 / 1920) + 'px';
                     if(clientWidth > 1600){
                         docEl.style.fontSize = 100 + 'px';
-                        vue.$store.commit('setRemSize',100);
                     }else if(clientWidth > 1200){
-                        vue.$store.commit('setRemSize',80);                        
                         docEl.style.fontSize = 80 + 'px';                        
                     }else{
-                        vue.$store.commit('setRemSize',clientWidth * (100 / 1920));                                                
                         docEl.style.fontSize = clientWidth * (100 / 1920) + 'px';                    
                     }
                 };

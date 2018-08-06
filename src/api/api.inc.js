@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost';
+axios.defaults.baseURL = '';
 axios.defaults.url = '';
 axios.defaults.timeout = 30000;
 axios.defaults.onUploadProgress = (progressEvent) => {

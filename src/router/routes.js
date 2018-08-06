@@ -31,7 +31,7 @@ export const appRouter = {
             path:'index',
             name: 'index',
             icon: 'home',
-            component: () => import(/* webpackChunkName: "home" */'pages/index.vue')
+            component: () => import(/* webpackChunkName: "home" */'pages/example.vue')
         },
         {
             id: 2,
